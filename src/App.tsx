@@ -10,6 +10,10 @@ const router = createBrowserRouter([
     element: <Admin />,
   },
   {
+    path: "/error",
+    element: <div>Oops! this link is invalid!</div>,
+  },
+  {
     path: "/:id",
     element: <Guest />,
   },

@@ -10,4 +10,9 @@ export default defineSchema({
   numbers: defineTable({
     value: v.number(),
   }),
+  guest: defineTable({
+    firstName: v.string(),
+    lastName: v.optional(v.string()),
+    phoneNumber: v.string(),
+  }),
 });
