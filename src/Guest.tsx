@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../convex/_generated/api";
 import { useState } from "react";
 import Countdown from "react-countdown";
+import Form from "./components/Form";
+import WishList from "./components/WishList";
 
 export default function Guest() {
   const [openInvitation, setOpenInvitation] = useState(false);
@@ -101,20 +103,8 @@ export default function Guest() {
                 </p>
               </div>
               <div>location with a button here</div>
-              <form>
-                <input
-                  type="text"
-                  value={`${guest.firstName} ${guest.lastName}`}
-                />
-                <select name="attendance">
-                  <option value="yes">I will Attend</option>
-                  <option value="no">I can't make it</option>
-                  <option value="maybe">Maybe</option>
-                </select>
-                <textarea name="wish" id="wish"></textarea>
-                <button type="submit">Submit</button>
-              </form>
-              <div>wish list here</div>
+              <Form guest={guest} />
+              <WishList />
               <div>gallery here</div>
             </div>
           )}

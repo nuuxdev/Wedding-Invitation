@@ -1,6 +1,7 @@
 import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 import { authTables } from "@convex-dev/auth/server";
+import { VwillAttend } from "./attendance";
 
 // The schema is normally optional, but Convex Auth
 // requires indexes defined on `authTables`.
@@ -14,5 +15,15 @@ export default defineSchema({
     firstName: v.string(),
     lastName: v.optional(v.string()),
     phoneNumber: v.string(),
+  }),
+  wish: defineTable({
+    message: v.string(),
+    fullName: v.string(),
+    guestId: v.id("guest"),
+  }),
+  attendance: defineTable({
+    fullName: v.string(),
+    guestId: v.id("guest"),
+    willAttend: VwillAttend,
   }),
 });

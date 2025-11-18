@@ -8,10 +8,12 @@
  * @module
  */
 
+import type * as attendance from "../attendance.js";
 import type * as auth from "../auth.js";
 import type * as guest from "../guest.js";
 import type * as http from "../http.js";
 import type * as myFunctions from "../myFunctions.js";
+import type * as wish from "../wish.js";
 
 import type {
   ApiFromModules,
@@ -20,10 +22,12 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  attendance: typeof attendance;
   auth: typeof auth;
   guest: typeof guest;
   http: typeof http;
   myFunctions: typeof myFunctions;
+  wish: typeof wish;
 }>;
 
 /**
