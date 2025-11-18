@@ -8,6 +8,11 @@ export const VwillAttend = v.union(
   v.literal("maybe"),
 );
 
+export type TaddNewResponse = {
+  success: boolean;
+  message: string;
+};
+
 export const addNew = mutation({
   args: {
     guestId: v.id("guest"),
@@ -15,8 +20,17 @@ export const addNew = mutation({
     willAttend: VwillAttend,
     message: v.string(),
   },
-  handler: async (ctx, args) => {
-    const attendanceId = await ctx.db.insert("attendance", {
+  handler: async (ctx, args): Promise<TaddNewResponse> => {
+    const attendanceId = await ctx.db
+      .query("attendance")
+      .withIndex("by_guestId", (q) => q.eq("guestId", args.guestId))
+      .unique();
+    if (attendanceId) {
+      console.log(attendanceId);
+      return { success: false, message: "attendance already filled" };
+    }
+
+    await ctx.db.insert("attendance", {
       fullName: args.fullName,
       willAttend: args.willAttend,
       guestId: args.guestId,
@@ -27,6 +41,6 @@ export const addNew = mutation({
       fullName: args.fullName,
     });
 
-    return attendanceId;
+    return { success: true, message: "attendance recorded successfully" };
   },
 });

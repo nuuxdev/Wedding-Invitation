@@ -11,23 +11,26 @@ export default function Form({ guest }: Tprops) {
   const addNew = useMutation(api.attendance.addNew);
   const [willAttend, setWillAttend] = useState<"yes" | "no" | "maybe">("yes");
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
     try {
-      await addNew({
+      setLoading(true);
+      const response = await addNew({
         guestId: guest._id,
         fullName: `${guest.firstName} ${guest.lastName}`,
         willAttend: willAttend,
         message: message,
       });
 
-      // Optionally reset form or show success message
       setMessage("");
-      alert("submitted successfully");
+      alert(`${response.success ? "Success" : "Error"}: ${response.message}`);
     } catch (error) {
       console.error("Failed to submit:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -55,7 +58,9 @@ export default function Form({ guest }: Tprops) {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
       />
-      <button type="submit">Submit</button>
+      <button type="submit" disabled={loading}>
+        {loading ? "Loading" : "Submit"}
+      </button>
     </form>
   );
 }
