@@ -14,13 +14,11 @@ export default function Admin() {
   return (
     <>
       <header className="sticky top-0 z-10 bg-light dark:bg-dark p-4 border-b-2 border-slate-200 dark:border-slate-800">
-        Convex + React + Convex Auth
+        Admin
         <SignOutButton />
       </header>
       <main className="p-8 flex flex-col gap-16">
-        <h1 className="text-4xl font-bold text-center">
-          Convex + React + Convex Auth
-        </h1>
+        <h1 className="text-4xl font-bold text-center">Wedding Invitation</h1>
         <Authenticated>
           <Content />
         </Authenticated>
@@ -51,11 +49,11 @@ function SignOutButton() {
 
 function SignInForm() {
   const { signIn } = useAuthActions();
-  const [flow, setFlow] = useState<"signIn" | "signUp">("signIn");
+  const [flow] = useState<"signIn" | "signUp">("signIn");
   const [error, setError] = useState<string | null>(null);
   return (
     <div className="flex flex-col gap-8 w-96 mx-auto">
-      <p>Log in to see the numbers</p>
+      <p>Log in to your account</p>
       <form
         className="flex flex-col gap-2"
         onSubmit={(e) => {
@@ -85,7 +83,7 @@ function SignInForm() {
         >
           {flow === "signIn" ? "Sign in" : "Sign up"}
         </button>
-        <div className="flex flex-row gap-2">
+        {/* <div className="flex flex-row gap-2">
           <span>
             {flow === "signIn"
               ? "Don't have an account?"
@@ -97,7 +95,7 @@ function SignInForm() {
           >
             {flow === "signIn" ? "Sign up instead" : "Sign in instead"}
           </span>
-        </div>
+        </div> */}
         {error && (
           <div className="bg-red-500/20 border-2 border-red-500/50 rounded-md p-2">
             <p className="text-dark dark:text-light font-mono text-xs">

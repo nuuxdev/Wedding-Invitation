@@ -1,4 +1,4 @@
-@import "tailwindcss";
+/* @import "tailwindcss";
 
 @theme {
   --color-light: #ffffff;
@@ -19,4 +19,77 @@
     background: var(--color-light);
     font-family: Arial, Helvetica, sans-serif;
   }
+} */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: green;
 }
+
+main {
+  background-color: yellow;
+  min-height: 100vh;
+}
+.loading {
+  position: fixed;
+  height: 100vh;
+  inset: 0;
+  background-color: rebeccapurple;
+  display: grid;
+  place-content: center;
+}
+.hero {
+  background-color: darkblue;
+  height: 100vh;
+  background-image: url("/cover.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+.cover {
+  background-color: rgb(255, 255, 255, 0.3);
+  --_blur: 3px;
+  height: 100%;
+  display: grid;
+  place-content: center;
+  background-color: rgb(0, 0, 0, 0.2);
+  backdrop-filter: blur(var(--_blur));
+  -webkit-backdrop-filter: blur(var(--_blur));
+}
+/* .cover {
+  height: 100vh;
+  background-image: url("/cover.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  .overlay {
+    --_blur: 3px;
+    height: 100%;
+    display: grid;
+    place-content: center;
+    background-color: rgb(0, 0, 0, 0.2);
+    backdrop-filter: blur(var(--_blur));
+    -webkit-backdrop-filter: blur(var(--_blur));
+    transition: all 500ms ease-out;
+    transition-behavior: allow-discrete;
+    .not_loading {
+      display: grid;
+      place-content: center;
+      text-align: center;
+      transition: all 500ms ease-out;
+      transition-behavior: allow-discrete;
+      @starting-style {
+        opacity: 0;
+        scale: 0.5;
+      }
+    }
+    &.out {
+      --_blur: 0px;
+      transform: translateZ(800px);
+      opacity: 0;
+      display: none;
+    }
+  }
+} */
