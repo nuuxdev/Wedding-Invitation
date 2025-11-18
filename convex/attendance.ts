@@ -1,6 +1,7 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 import { insertWish } from "./wish";
+import { getAuthUserId } from "@convex-dev/auth/server";
 
 export const VwillAttend = v.union(
   v.literal("yes"),
@@ -12,6 +13,16 @@ export type TaddNewResponse = {
   success: boolean;
   message: string;
 };
+
+export const findAll = query({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) return;
+    const attendanceList = await ctx.db.query("attendance").collect();
+    return attendanceList;
+  },
+});
 
 export const addNew = mutation({
   args: {
