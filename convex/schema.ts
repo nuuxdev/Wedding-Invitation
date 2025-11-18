@@ -25,5 +25,7 @@ export default defineSchema({
     fullName: v.string(),
     guestId: v.id("guest"),
     willAttend: VwillAttend,
-  }).index("by_guestId", ["guestId"]),
+  })
+    .index("by_guestId", ["guestId"])
+    .index("by_willAttend", ["willAttend"]),
 });

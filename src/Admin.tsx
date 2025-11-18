@@ -110,9 +110,11 @@ function SignInForm() {
 }
 
 function Content() {
+  const guestStats = useQuery(api.stats.guestStats);
   const attendanceList = useQuery(api.attendance.findAll);
 
-  if (attendanceList === undefined) return <div>loading...</div>;
+  if (attendanceList === undefined || guestStats === undefined)
+    return <div>loading...</div>;
 
   const attendanceColors: Record<Infer<typeof VwillAttend>, string> = {
     yes: "green",
@@ -123,6 +125,14 @@ function Content() {
     <div>
       <p>Welcome {"Admin"}!</p>
       <div>
+        <h2>Guest Stats</h2>
+        <div>
+          {<h4>total guests:{guestStats?.guestCount ?? 0}</h4>}
+          {<h4>total attendees:{guestStats?.attendanceCounts.total ?? 0}</h4>}
+          {<h4>coming:{guestStats?.attendanceCounts.yes ?? 0}</h4>}
+          {<h4>not coming:{guestStats?.attendanceCounts.no ?? 0}</h4>}
+          {<h4>may be coming:{guestStats?.attendanceCounts.maybe ?? 0}</h4>}
+        </div>
         <h2>Attendance List</h2>
         <div>
           {attendanceList ? (

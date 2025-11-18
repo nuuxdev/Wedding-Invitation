@@ -13,6 +13,7 @@ import type * as auth from "../auth.js";
 import type * as guest from "../guest.js";
 import type * as http from "../http.js";
 import type * as myFunctions from "../myFunctions.js";
+import type * as stats from "../stats.js";
 import type * as wish from "../wish.js";
 
 import type {
@@ -27,6 +28,7 @@ declare const fullApi: ApiFromModules<{
   guest: typeof guest;
   http: typeof http;
   myFunctions: typeof myFunctions;
+  stats: typeof stats;
   wish: typeof wish;
 }>;
 
