@@ -5,6 +5,7 @@ import { useState } from "react";
 import Countdown from "react-countdown";
 import Form from "./components/Form";
 import WishList from "./components/WishList";
+import Gallery from "./components/Gallery";
 
 export default function Guest() {
   const [openInvitation, setOpenInvitation] = useState(false);
@@ -70,7 +71,7 @@ export default function Guest() {
             )}
           </div>
           {openInvitation && (
-            <div style={{ height: "200vh" }}>
+            <div>
               Save the Date <br />
               <Countdown date="2026-01-01" renderer={renderer} />
               <h3>2026-01-01</h3>
@@ -105,7 +106,7 @@ export default function Guest() {
               <div>location with a button here</div>
               <Form guest={guest} />
               <WishList />
-              <div>gallery here</div>
+              <Gallery />
             </div>
           )}
         </>
