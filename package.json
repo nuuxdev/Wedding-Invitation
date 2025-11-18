@@ -16,7 +16,8 @@
     "@convex-dev/auth": "^0.0.90",
     "convex": "^1.29.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.9.6"
   },
   "devDependencies": {
     "@convex-dev/eslint-plugin": "^1.0.0",
