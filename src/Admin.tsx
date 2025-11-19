@@ -11,6 +11,7 @@ import { useAuthActions } from "@convex-dev/auth/react";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Infer } from "convex/values";
 import { TverifyGuestResponse, VwillAttend } from "../convex/attendance";
+import { Doc } from "../convex/_generated/dataModel";
 import { Html5Qrcode } from "html5-qrcode";
 
 export default function Admin() {
@@ -32,21 +33,82 @@ export default function Admin() {
 }
 
 function AdminApp() {
-  const [activeTab, setActiveTab] = useState<"home" | "scan" | "attendance" | "wishes">("home");
+  const [activeTab, setActiveTab] = useState<"home" | "guests" | "attendance" | "wishes">("home");
+  const [showScanner, setShowScanner] = useState(false);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh", position: "relative" }}>
       <header style={{ padding: "15px", borderBottom: "1px solid #eee", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h1 style={{ margin: 0, fontSize: "1.2rem" }}>Admin Dashboard</h1>
         <SignOutButton />
       </header>
 
-      <main style={{ flex: 1, overflowY: "auto", padding: "15px" }}>
+      <main style={{ flex: 1, overflowY: "auto", padding: "15px", paddingBottom: "80px" }}>
         {activeTab === "home" && <HomeTab />}
-        {activeTab === "scan" && <ScannerSection />}
+        {activeTab === "guests" && <GuestListTab />}
         {activeTab === "attendance" && <AttendanceTab />}
         {activeTab === "wishes" && <WishesTab />}
       </main>
+
+      {/* Floating Action Button for Scanner */}
+      <button
+        onClick={() => setShowScanner(true)}
+        style={{
+          position: "fixed",
+          bottom: "80px",
+          right: "20px",
+          width: "60px",
+          height: "60px",
+          borderRadius: "50%",
+          backgroundColor: "#4CAF50",
+          color: "white",
+          border: "none",
+          boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          cursor: "pointer",
+          zIndex: 1000
+        }}
+      >
+        <ScanIcon />
+      </button>
+
+      {/* Scanner Modal */}
+      {showScanner && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0,0,0,0.8)",
+          zIndex: 2000,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "20px"
+        }}>
+          <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "10px", width: "100%", maxWidth: "500px", position: "relative" }}>
+            <button
+              onClick={() => setShowScanner(false)}
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "1.5rem",
+                cursor: "pointer"
+              }}
+            >
+              ×
+            </button>
+            <ScannerSection />
+          </div>
+        </div>
+      )}
 
       <nav style={{
         display: "flex",
@@ -55,7 +117,8 @@ function AdminApp() {
         borderTop: "1px solid #eee",
         backgroundColor: "#fff",
         position: "sticky",
-        bottom: 0
+        bottom: 0,
+        zIndex: 900
       }}>
         <NavButton
           active={activeTab === "home"}
@@ -64,16 +127,16 @@ function AdminApp() {
           label="Home"
         />
         <NavButton
-          active={activeTab === "scan"}
-          onClick={() => setActiveTab("scan")}
-          icon={<ScanIcon />}
-          label="Scan"
+          active={activeTab === "guests"}
+          onClick={() => setActiveTab("guests")}
+          icon={<UsersIcon />}
+          label="Guests"
         />
         <NavButton
           active={activeTab === "attendance"}
           onClick={() => setActiveTab("attendance")}
           icon={<ListIcon />}
-          label="List"
+          label="Attendance"
         />
         <NavButton
           active={activeTab === "wishes"}
@@ -106,7 +169,6 @@ function NavButton({ active, onClick, icon, label }: { active: boolean; onClick:
     </button>
   );
 }
-
 // Icons
 const HomeIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
@@ -119,6 +181,9 @@ const ListIcon = () => (
 );
 const HeartIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+);
+const UsersIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
 );
 
 function HomeTab() {
@@ -145,6 +210,78 @@ function StatCard({ label, value, color = "#333" }: { label: string; value: numb
     <div style={{ padding: "15px", borderRadius: "8px", border: "1px solid #eee", textAlign: "center", backgroundColor: "#f9f9f9" }}>
       <div style={{ fontSize: "2rem", fontWeight: "bold", color }}>{value}</div>
       <div style={{ fontSize: "0.9rem", color: "#666" }}>{label}</div>
+    </div>
+  );
+}
+
+function GuestListTab() {
+  const guests = useQuery(api.guest.findAll);
+
+  if (guests === undefined) return <div>Loading guests...</div>;
+
+  const generateMessage = (guest: Doc<"guest">) => {
+    const link = `${window.location.origin}/${guest._id}`;
+    return `Hello ${guest.firstName}, you are invited to our wedding! Please RSVP using this link: ${link}\n\nInstructions: Fill out the form and save the QR code displayed. You will need to show this QR code at the entrance.`;
+  };
+
+  const handleCopy = (message: string) => {
+    navigator.clipboard.writeText(message).then(() => {
+      alert("Message copied to clipboard!");
+    });
+  };
+
+  return (
+    <div>
+      <h2>Guest List</h2>
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        {guests && guests.length > 0 ? (
+          guests.map((guest) => {
+            const message = generateMessage(guest);
+            const smsLink = `sms:${guest.phoneNumber}?body=${encodeURIComponent(message)}`;
+
+            return (
+              <div key={guest._id} style={{ padding: "15px", borderRadius: "8px", border: "1px solid #eee", backgroundColor: "#f9f9f9" }}>
+                <h3 style={{ margin: "0 0 5px 0", fontSize: "1.1rem" }}>{guest.firstName} {guest.lastName}</h3>
+                <p style={{ margin: "0 0 10px 0", color: "#666" }}>{guest.phoneNumber}</p>
+                <div style={{ display: "flex", gap: "10px" }}>
+                  <a
+                    href={smsLink}
+                    style={{
+                      flex: 1,
+                      textAlign: "center",
+                      padding: "8px",
+                      backgroundColor: "#4CAF50",
+                      color: "white",
+                      textDecoration: "none",
+                      borderRadius: "5px",
+                      fontSize: "0.9rem"
+                    }}
+                  >
+                    Send SMS
+                  </a>
+                  <button
+                    onClick={() => handleCopy(message)}
+                    style={{
+                      flex: 1,
+                      padding: "8px",
+                      backgroundColor: "#2196F3",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "5px",
+                      cursor: "pointer",
+                      fontSize: "0.9rem"
+                    }}
+                  >
+                    Copy Msg
+                  </button>
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <p>No guests found.</p>
+        )}
+      </div>
     </div>
   );
 }

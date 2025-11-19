@@ -14,3 +14,10 @@ export const findOne = query({
     return guest;
   },
 });
+
+export const findAll = query({
+  args: {},
+  handler: async (ctx) => {
+    return await ctx.db.query("guest").collect();
+  },
+});
