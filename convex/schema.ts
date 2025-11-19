@@ -25,6 +25,7 @@ export default defineSchema({
     fullName: v.string(),
     guestId: v.id("guest"),
     willAttend: VwillAttend,
+    checkedIn: v.optional(v.boolean()),
   })
     .index("by_guestId", ["guestId"])
     .index("by_willAttend", ["willAttend"]),

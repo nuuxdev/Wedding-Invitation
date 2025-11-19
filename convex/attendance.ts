@@ -2,6 +2,7 @@ import { Infer, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { insertWish } from "./wish";
 import { getAuthUserId } from "@convex-dev/auth/server";
+import { Doc } from "./_generated/dataModel";
 
 
 //Types
@@ -20,6 +21,13 @@ export type TaddNewResponse = {
   success: boolean;
   message: string;
   verifyUrl: string;
+};
+
+export type TverifyGuestResponse = {
+  success: boolean;
+  message?: string;
+  guest?: Doc<"guest">;
+  attendance?: Doc<"attendance">;
 };
 
 //Find All
@@ -60,6 +68,7 @@ export const addNew = mutation({
       fullName: args.fullName,
       willAttend: args.willAttend,
       guestId: args.guestId,
+      checkedIn: false,
     });
     await insertWish(ctx, {
       message: args.message,
@@ -86,7 +95,7 @@ export const verifyGuest = mutation({
   args: {
     token: v.string(),
   },
-  handler: async (ctx, args) => {
+  handler: async (ctx, args): Promise<TverifyGuestResponse> => {
     const { guestId, signature } = parseToken(args.token);
     const secret = process.env.QR_SECRET || "default_secret_key";
     const enc = new TextEncoder();
@@ -107,25 +116,16 @@ export const verifyGuest = mutation({
       .join("");
 
     if (signature !== expectedSignatureHex) {
-      return {
-        success: false,
-        message: "Invalid token signature",
-      };
+      return { success: false, message: "Invalid token signature" };
     }
 
     const normalizedGuestId = ctx.db.normalizeId("guest", guestId);
     if (!normalizedGuestId) {
-      return {
-        success: false,
-        message: "Invalid guest ID",
-      };
+      return { success: false, message: "Invalid guest ID" };
     }
     const guest = await ctx.db.get(normalizedGuestId);
     if (!guest) {
-      return {
-        success: false,
-        message: "Guest not found",
-      };
+      return { success: false, message: "Guest not found" };
     }
 
     const attendance = await ctx.db
@@ -133,10 +133,27 @@ export const verifyGuest = mutation({
       .withIndex("by_guestId", (q) => q.eq("guestId", guest._id))
       .unique();
 
+    if (!attendance) {
+      return { success: false, message: "No attendance record found" };
+    }
+
+    if (attendance.checkedIn) {
+      return {
+        success: false,
+        message: "Guest already checked in!",
+        guest,
+        attendance,
+      };
+    }
+
+    // Mark as checked in
+    await ctx.db.patch(attendance._id, { checkedIn: true });
+    const updatedAttendance = await ctx.db.get(attendance._id);
+
     return {
       success: true,
       guest,
-      attendance,
+      attendance: updatedAttendance ?? undefined,
     };
   },
 });

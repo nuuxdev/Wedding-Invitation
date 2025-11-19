@@ -10,8 +10,8 @@ import { api } from "../convex/_generated/api";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useEffect, useState, useCallback, useRef } from "react";
 import { Infer } from "convex/values";
-import { VwillAttend } from "../convex/attendance";
-import { Doc } from "../convex/_generated/dataModel";
+import { TverifyGuestResponse, VwillAttend } from "../convex/attendance";
+import { Html5Qrcode } from "html5-qrcode";
 
 export default function Admin() {
   return (
@@ -112,16 +112,25 @@ function SignInForm() {
 }
 
 function Content() {
+
+  //calls
+
   const guestStats = useQuery(api.stats.guestStats);
   const attendanceList = useQuery(api.attendance.findAll);
-  if (attendanceList === undefined || guestStats === undefined)
-    return <div>loading...</div>;
+
+  //vars
 
   const attendanceColors: Record<Infer<typeof VwillAttend>, string> = {
     yes: "green",
     no: "red",
     maybe: "yellow",
   };
+
+  //render
+
+  if (attendanceList === undefined || guestStats === undefined)
+    return <div>loading...</div>;
+
   return (
     <div>
       <p>Welcome {"Admin"}!</p>
@@ -161,13 +170,14 @@ function Content() {
 }
 
 function ScannerSection() {
+
+  //calls
   const verifyGuest = useMutation(api.attendance.verifyGuest);
-  const [scanResult, setScanResult] = useState<{
-    success: boolean;
-    message?: string;
-    guest?: Doc<"guest">;
-    attendance?: Doc<"attendance">;
-  } | null>(null);
+
+  //states
+  const [scanResult, setScanResult] = useState<TverifyGuestResponse | null>(null);
+
+  //hooks
 
   const handleScan = useCallback(async (decodedText: string) => {
     try {
@@ -177,7 +187,7 @@ function ScannerSection() {
       }
 
       const result = await verifyGuest({ token });
-      setScanResult(result as any);
+      setScanResult(result);
     } catch (error) {
       console.error("Verification failed:", error);
       setScanResult({ success: false, message: "Verification failed" });
@@ -215,6 +225,22 @@ function ScannerSection() {
               </p>
               <button onClick={() => setScanResult(null)}>Scan Another</button>
             </>
+          ) : scanResult.guest ? (
+            <>
+              <h3 style={{ color: "orange" }}>Guest Already Checked In!</h3>
+              <p>
+                <strong>Name:</strong> {scanResult.guest?.firstName}{" "}
+                {scanResult.guest?.lastName}
+              </p>
+              <p>
+                <strong>Phone:</strong> {scanResult.guest?.phoneNumber}
+              </p>
+              <p>
+                <strong>RSVP:</strong> {scanResult.attendance?.willAttend}
+              </p>
+              <p style={{ color: "red" }}>{scanResult.message}</p>
+              <button onClick={() => setScanResult(null)}>Scan Another</button>
+            </>
           ) : (
             <>
               <h3 style={{ color: "red" }}>Invalid Guest!</h3>
@@ -227,8 +253,6 @@ function ScannerSection() {
     </div>
   );
 }
-
-import { Html5Qrcode } from "html5-qrcode";
 
 function QRScanner({ onScan }: { onScan: (text: string) => void }) {
   const [scannerId] = useState(
