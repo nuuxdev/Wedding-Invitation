@@ -3,12 +3,16 @@ import { query } from "./_generated/server";
 import { Infer } from "convex/values";
 import { VwillAttend } from "./attendance";
 
+//types
+
 export type TstatsResponse = {
   guestCount: number;
   attendanceCounts: Record<Infer<typeof VwillAttend>, number> & {
     total: number;
   };
 };
+
+//guest stats
 
 export const guestStats = query({
   args: {},

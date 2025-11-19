@@ -16,20 +16,211 @@ import { Html5Qrcode } from "html5-qrcode";
 export default function Admin() {
   return (
     <>
-      <header>
-        Admin
+      <Authenticated>
+        <AdminApp />
+      </Authenticated>
+      <Unauthenticated>
+        <div className="p-4">
+          <header className="mb-4">
+            <h1 className="text-2xl font-bold">Wedding Invitation Admin</h1>
+          </header>
+          <SignInForm />
+        </div>
+      </Unauthenticated>
+    </>
+  );
+}
+
+function AdminApp() {
+  const [activeTab, setActiveTab] = useState<"home" | "scan" | "attendance" | "wishes">("home");
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", height: "100vh" }}>
+      <header style={{ padding: "15px", borderBottom: "1px solid #eee", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h1 style={{ margin: 0, fontSize: "1.2rem" }}>Admin Dashboard</h1>
         <SignOutButton />
       </header>
-      <main>
-        <h1>Wedding Invitation</h1>
-        <Authenticated>
-          <Content />
-        </Authenticated>
-        <Unauthenticated>
-          <SignInForm />
-        </Unauthenticated>
+
+      <main style={{ flex: 1, overflowY: "auto", padding: "15px" }}>
+        {activeTab === "home" && <HomeTab />}
+        {activeTab === "scan" && <ScannerSection />}
+        {activeTab === "attendance" && <AttendanceTab />}
+        {activeTab === "wishes" && <WishesTab />}
       </main>
-    </>
+
+      <nav style={{
+        display: "flex",
+        justifyContent: "space-around",
+        padding: "10px 0",
+        borderTop: "1px solid #eee",
+        backgroundColor: "#fff",
+        position: "sticky",
+        bottom: 0
+      }}>
+        <NavButton
+          active={activeTab === "home"}
+          onClick={() => setActiveTab("home")}
+          icon={<HomeIcon />}
+          label="Home"
+        />
+        <NavButton
+          active={activeTab === "scan"}
+          onClick={() => setActiveTab("scan")}
+          icon={<ScanIcon />}
+          label="Scan"
+        />
+        <NavButton
+          active={activeTab === "attendance"}
+          onClick={() => setActiveTab("attendance")}
+          icon={<ListIcon />}
+          label="List"
+        />
+        <NavButton
+          active={activeTab === "wishes"}
+          onClick={() => setActiveTab("wishes")}
+          icon={<HeartIcon />}
+          label="Wishes"
+        />
+      </nav>
+    </div>
+  );
+}
+
+function NavButton({ active, onClick, icon, label }: { active: boolean; onClick: () => void; icon: React.ReactNode; label: string }) {
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        background: "none",
+        border: "none",
+        color: active ? "#4CAF50" : "#888",
+        cursor: "pointer",
+        fontSize: "0.8rem"
+      }}
+    >
+      <div style={{ marginBottom: "4px" }}>{icon}</div>
+      {label}
+    </button>
+  );
+}
+
+// Icons
+const HomeIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+);
+const ScanIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><path d="M3 14h7v7H3z"></path></svg>
+);
+const ListIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+);
+const HeartIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+);
+
+function HomeTab() {
+  const guestStats = useQuery(api.stats.guestStats);
+
+  if (guestStats === undefined) return <div>Loading stats...</div>;
+
+  return (
+    <div>
+      <h2>Guest Statistics</h2>
+      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "20px" }}>
+        <StatCard label="Total Guests" value={guestStats?.guestCount ?? 0} />
+        <StatCard label="Total Responses" value={guestStats?.attendanceCounts.total ?? 0} />
+        <StatCard label="Attending" value={guestStats?.attendanceCounts.yes ?? 0} color="green" />
+        <StatCard label="Not Attending" value={guestStats?.attendanceCounts.no ?? 0} color="red" />
+        <StatCard label="Tentative" value={guestStats?.attendanceCounts.maybe ?? 0} color="orange" />
+      </div>
+    </div>
+  );
+}
+
+function StatCard({ label, value, color = "#333" }: { label: string; value: number; color?: string }) {
+  return (
+    <div style={{ padding: "15px", borderRadius: "8px", border: "1px solid #eee", textAlign: "center", backgroundColor: "#f9f9f9" }}>
+      <div style={{ fontSize: "2rem", fontWeight: "bold", color }}>{value}</div>
+      <div style={{ fontSize: "0.9rem", color: "#666" }}>{label}</div>
+    </div>
+  );
+}
+
+function AttendanceTab() {
+  const attendanceList = useQuery(api.attendance.findAll);
+
+  if (attendanceList === undefined) return <div>Loading list...</div>;
+
+  const attendanceColors: Record<Infer<typeof VwillAttend>, string> = {
+    yes: "#e6fffa", // light green bg
+    no: "#fff5f5", // light red bg
+    maybe: "#fffaf0", // light orange bg
+  };
+
+  const statusColors: Record<Infer<typeof VwillAttend>, string> = {
+    yes: "green",
+    no: "red",
+    maybe: "orange",
+  };
+
+  return (
+    <div>
+      <h2>Attendance List</h2>
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        {attendanceList && attendanceList.length > 0 ? (
+          attendanceList.map((attendance) => (
+            <div key={attendance._id} style={{
+              padding: "15px",
+              borderRadius: "8px",
+              border: "1px solid #eee",
+              backgroundColor: attendanceColors[attendance.willAttend],
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center"
+            }}>
+              <div>
+                <h3 style={{ margin: "0 0 5px 0", fontSize: "1.1rem" }}>{attendance.fullName}</h3>
+                <div style={{ fontSize: "0.8rem", color: "#666" }}>
+                  Status: <span style={{ color: statusColors[attendance.willAttend], fontWeight: "bold" }}>{attendance.willAttend.toUpperCase()}</span>
+                </div>
+                {attendance.checkedIn && (
+                  <div style={{ fontSize: "0.8rem", color: "green", marginTop: "5px" }}>✓ Checked In</div>
+                )}
+              </div>
+            </div>
+          ))
+        ) : (
+          <p>No attendance records found.</p>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function WishesTab() {
+  const wishList = useQuery(api.wish.findAll);
+
+  if (wishList === undefined) return <div>Loading wishes...</div>;
+
+  return (
+    <div>
+      <h2>Guest Wishes</h2>
+      <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        {wishList && wishList.length > 0 ? (
+          wishList.map((wish) => (
+            <div key={wish._id} style={{ padding: "15px", borderRadius: "8px", border: "1px solid #eee", backgroundColor: "#f9f9f9" }}>
+              <p style={{ margin: "0 0 10px 0", fontStyle: "italic" }}>"{wish.message}"</p>
+              <div style={{ fontSize: "0.9rem", color: "#666", textAlign: "right" }}>- {wish.fullName}</div>
+            </div>
+          ))
+        ) : (
+          <p>No wishes received yet.</p>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -42,6 +233,7 @@ function SignOutButton() {
         <button
           className="bg-slate-200 dark:bg-slate-800 text-dark dark:text-light rounded-md px-2 py-1"
           onClick={() => void signOut()}
+          style={{ fontSize: "0.8rem" }}
         >
           Sign out
         </button>
@@ -86,19 +278,6 @@ function SignInForm() {
         >
           {flow === "signIn" ? "Sign in" : "Sign up"}
         </button>
-        {/* <div className="flex flex-row gap-2">
-          <span>
-            {flow === "signIn"
-              ? "Don't have an account?"
-              : "Already have an account?"}
-          </span>
-          <span
-            className="text-dark dark:text-light underline hover:no-underline cursor-pointer"
-            onClick={() => setFlow(flow === "signIn" ? "signUp" : "signIn")}
-          >
-            {flow === "signIn" ? "Sign up instead" : "Sign in instead"}
-          </span>
-        </div> */}
         {error && (
           <div className="bg-red-500/20 border-2 border-red-500/50 rounded-md p-2">
             <p className="text-dark dark:text-light font-mono text-xs">
@@ -111,66 +290,7 @@ function SignInForm() {
   );
 }
 
-function Content() {
-
-  //calls
-
-  const guestStats = useQuery(api.stats.guestStats);
-  const attendanceList = useQuery(api.attendance.findAll);
-
-  //vars
-
-  const attendanceColors: Record<Infer<typeof VwillAttend>, string> = {
-    yes: "green",
-    no: "red",
-    maybe: "yellow",
-  };
-
-  //render
-
-  if (attendanceList === undefined || guestStats === undefined)
-    return <div>loading...</div>;
-
-  return (
-    <div>
-      <p>Welcome {"Admin"}!</p>
-      <ScannerSection />
-      <div>
-        <h2>Guest Stats</h2>
-        <div>
-          {<h4>total guests:{guestStats?.guestCount ?? 0}</h4>}
-          {<h4>total attendees:{guestStats?.attendanceCounts.total ?? 0}</h4>}
-          {<h4>coming:{guestStats?.attendanceCounts.yes ?? 0}</h4>}
-          {<h4>not coming:{guestStats?.attendanceCounts.no ?? 0}</h4>}
-          {<h4>may be coming:{guestStats?.attendanceCounts.maybe ?? 0}</h4>}
-        </div>
-        <h2>Attendance List</h2>
-        <div>
-          {attendanceList ? (
-            attendanceList.map((attendance) => (
-              <div key={attendance._id}>
-                <h3>{attendance.fullName}</h3>
-                <h6>{attendance._id}</h6>
-                <div
-                  style={{
-                    backgroundColor: attendanceColors[attendance.willAttend],
-                  }}
-                >
-                  {attendance.willAttend}
-                </div>
-              </div>
-            ))
-          ) : (
-            <p>No guest found in the attendance list</p>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function ScannerSection() {
-
   //calls
   const verifyGuest = useMutation(api.attendance.verifyGuest);
 
