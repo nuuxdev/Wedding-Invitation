@@ -64,24 +64,33 @@ export default function Guest() {
       ) : (
         <>
           <div className="hero">
-            {!openInvitation ? (
-              <div className="cover">
-                <h1>Wedding Invitation</h1>
-                <p>to</p>
-                <h2>
-                  {guest.firstName} {guest.lastName}
-                </h2>
-                <button onClick={() => setOpenInvitation(true)}>
-                  Open Invitation
-                </button>
-              </div>
-            ) : (
-              <div className="cover">
-                <h2>Abiy</h2>
-                <h1>&</h1>
-                <h2>Eden</h2>
-              </div>
-            )}
+            <div className={`visual-effects ${openInvitation ? "open" : ""}`}></div>
+
+            <div className={`hero-content ${openInvitation ? "open-layout" : ""}`}>
+              {!openInvitation ? (
+                <>
+                  <div className="top-text">
+                    <h2>Wedding Invitation</h2>
+                    <p style={{ color: "var(--color-white)" }}>to</p>
+                    <h1>
+                      {guest.firstName} {guest.lastName}
+                    </h1>
+                  </div>
+                  <button onClick={() => setOpenInvitation(true)}>
+                    Open Invitation
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h1 className="title-top">Wedding</h1>
+                  <div className="names-bottom">
+                    <h1>Abiy</h1>
+                    <h2>&</h2>
+                    <h1>Eden</h1>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
 
           {openInvitation && (
