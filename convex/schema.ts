@@ -13,7 +13,7 @@ export default defineSchema({
   }),
   guest: defineTable({
     firstName: v.string(),
-    lastName: v.optional(v.string()),
+    lastName: v.string(),
     phoneNumber: v.string(),
   }),
   wish: defineTable({
