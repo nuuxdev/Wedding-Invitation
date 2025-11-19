@@ -12,6 +12,7 @@ export default function Guest() {
   const guestId = useParams().id;
   const navigate = useNavigate();
   const guest = useQuery(api.guest.findOne, guestId ? { id: guestId } : "skip");
+
   if (guest === null) {
     navigate("/error");
     return null;
@@ -31,17 +32,27 @@ export default function Guest() {
     completed: boolean;
   }) => {
     if (completed) {
-      // Render a completed state
-      return <div>Yayyy</div>;
+      return <div className="completed-message">The Celebration Has Begun!</div>;
     } else {
-      // Render a countdown
       return (
-        <span>
-          {days}Days <br />
-          {hours}Hours <br />
-          {minutes}Minutes <br />
-          {seconds}Seconds
-        </span>
+        <div className="countdown-grid">
+          <div className="time-unit">
+            <span className="number">{days}</span>
+            <span className="label">Days</span>
+          </div>
+          <div className="time-unit">
+            <span className="number">{hours}</span>
+            <span className="label">Hours</span>
+          </div>
+          <div className="time-unit">
+            <span className="number">{minutes}</span>
+            <span className="label">Mins</span>
+          </div>
+          <div className="time-unit">
+            <span className="number">{seconds}</span>
+            <span className="label">Secs</span>
+          </div>
+        </div>
       );
     }
   };
@@ -49,61 +60,101 @@ export default function Guest() {
   return (
     <main>
       {!guest ? (
-        <div className="loading">loading...</div>
+        <div className="loading">Loading...</div>
       ) : (
         <>
           <div className="hero">
-            {!openInvitation ? (
-              <div className="cover">
-                <h1>Wedding Invitation</h1>
-                to{" "}
-                <h2>
-                  {guest.firstName} {guest.lastName}
-                </h2>
-                <button onClick={() => setOpenInvitation(!openInvitation)}>
-                  open invitation
-                </button>
-              </div>
-            ) : (
-              <div>
-                <h2>Abiy</h2>&<h2>Eden</h2>
-              </div>
-            )}
+            <div className={`visual-effects ${openInvitation ? "open" : ""}`}></div>
+
+            <div className={`hero-content ${openInvitation ? "open-layout" : ""}`}>
+              {!openInvitation ? (
+                <>
+                  <div className="top-text">
+                    <h2>Wedding Invitation</h2>
+                    <p style={{ color: "var(--color-white)" }}>to</p>
+                    <h1>
+                      {guest.firstName} {guest.lastName}
+                    </h1>
+                  </div>
+                  <button onClick={() => setOpenInvitation(true)}>
+                    Open Invitation
+                  </button>
+                </>
+              ) : (
+                <>
+                  <h1 className="title-top">Wedding</h1>
+                  <div className="names-bottom">
+                    <h1>Abiy</h1>
+                    <h2>&</h2>
+                    <h1>Eden</h1>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
+
           {openInvitation && (
-            <div>
-              Save the Date <br />
-              <Countdown date="2026-01-01" renderer={renderer} />
-              <h3>2026-01-01</h3>
-              <div>
-                <img
-                  src="https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="groom"
-                  width={100}
-                  height={100}
-                />
-                <h3>Abiy Sebsibe</h3>
-                <a href="https://www.instagram.com/henooks">Insta</a>
-              </div>
-              <div>
-                <img
-                  src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                  alt="bride"
-                  width={100}
-                  height={100}
-                />
-                <a href="https://www.instagram.com/henooks">Insta</a>
-                <h3>Eden Andualem</h3>
-              </div>
-              <div>
-                <p>
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+            <div className="content-wrapper">
+              {/* Save the Date Section */}
+              <section className="text-center">
+                <h3>Save the Date</h3>
+                <Countdown date="2026-01-01" renderer={renderer} />
+                <p className="uppercase" style={{ marginTop: '2rem', letterSpacing: '0.2em' }}>
+                  January 1st, 2026
+                </p>
+              </section>
+
+              {/* Couple Section */}
+              <section className="couple-section" style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+                <div>
+                  <img
+                    src="/5.webp"
+                    alt="Abiy Sebsibe"
+                  />
+                  <h3>Abiy Sebsibe</h3>
+                  <a href="https://www.instagram.com/henooks" target="_blank" rel="noopener noreferrer">
+                    @henooks
+                  </a>
+                </div>
+                <div>
+                  <img
+                    src="/bride.webp"
+                    alt="Eden Andualem"
+                  />
+                  <h3>Eden Andualem</h3>
+                  <a href="https://www.instagram.com/henooks" target="_blank" rel="noopener noreferrer">
+                    @eden
+                  </a>
+                </div>
+              </section>
+
+              {/* Story / Intro */}
+              <section className="text-center" style={{ maxWidth: '600px', margin: '0 auto' }}>
+                <h3>Our Story</h3>
+                <p style={{ fontStyle: 'italic', color: 'var(--color-stone)' }}>
+                  "Lorem ipsum dolor sit, amet consectetur adipisicing elit.
                   Ratione, mollitia, incidunt sunt laboriosam ad est quia quod
                   adipisci nulla possimus doloremque similique accusantium
-                  voluptas eligendi omnis alias dolorum ullam vel.
+                  voluptas eligendi omnis alias dolorum ullam vel."
                 </p>
-              </div>
-              <div>location with a button here</div>
+              </section>
+
+              {/* Location */}
+              <section className="text-center">
+                <h3>The Venue</h3>
+                <p>Addis Ababa, Ethiopia</p>
+                <button style={{
+                  marginTop: '1rem',
+                  background: 'transparent',
+                  border: '1px solid var(--color-crimson)',
+                  color: 'var(--color-crimson)',
+                  padding: '0.5rem 1.5rem',
+                  cursor: 'pointer'
+                }}>
+                  View Map
+                </button>
+              </section>
+
               <Form guest={guest} />
               <WishList />
               <Gallery />

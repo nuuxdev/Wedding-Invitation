@@ -66,61 +66,63 @@ export default function Form({ guest }: { guest: Doc<"guest"> }) {
 
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
-      <input
-        type="text"
-        value={`${guest.firstName} ${guest.lastName}`}
-        readOnly
-      />
-      <select
-        name="attendance"
-        value={willAttend}
-        onChange={(e) =>
-          setWillAttend(e.target.value as TwillAttend)
-        }
-      >
-        <option value="yes">I will Attend</option>
-        <option value="no">I can't make it</option>
-        <option value="maybe">Maybe</option>
-      </select>
-      <textarea
-        name="wish"
-        id="wish"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-      />
+      <div className="form-group">
+        <label htmlFor="guestName">Guest Name</label>
+        <input
+          id="guestName"
+          type="text"
+          value={`${guest.firstName} ${guest.lastName}`}
+          readOnly
+        />
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="attendance">Will you attend?</label>
+        <select
+          id="attendance"
+          name="attendance"
+          value={willAttend}
+          onChange={(e) =>
+            setWillAttend(e.target.value as TwillAttend)
+          }
+        >
+          <option value="yes">Yes, I will attend</option>
+          <option value="no">I can't make it</option>
+          <option value="maybe">Maybe</option>
+        </select>
+      </div>
+
+      <div className="form-group">
+        <label htmlFor="wish">Your Wish Message</label>
+        <textarea
+          name="wish"
+          id="wish"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Share your wishes for the couple..."
+        />
+      </div>
+
       <button type="submit" disabled={loading}>
-        {loading ? "Loading" : "Submit"}
+        {loading ? "Loading" : "Submit RSVP"}
       </button>
+
       <dialog
         ref={dialogRef}
         onClose={() => {
           document.body.style.overflow = "unset";
         }}
-        style={{
-          padding: "20px",
-          borderRadius: "10px",
-          border: "1px solid #ccc",
-          textAlign: "center",
-        }}
       >
-        <h3 style={{ color: "green" }}>Attendance Confirmed!</h3>
+        <h3>Attendance Confirmed!</h3>
         <p>Please save this QR code and show it at the entrance on the wedding day.</p>
-        <div style={{ margin: "20px 0" }}>
+        <div>
           <img src={qrCode || undefined} alt="qrCode" width={250} height={250} />
         </div>
-        <div style={{ display: "flex", gap: "10px", justifyContent: "center" }}>
+        <div>
           <a
             href={qrCode}
             download={`wedding-invite-${guest.firstName}-${guest.lastName}.png`}
             onClick={() => setDownloaded(true)}
-            style={{
-              textDecoration: "none",
-              backgroundColor: "#4CAF50",
-              color: "white",
-              padding: "10px 20px",
-              borderRadius: "5px",
-              cursor: "pointer"
-            }}
           >
             Download QR Code
           </a>
@@ -128,13 +130,6 @@ export default function Form({ guest }: { guest: Doc<"guest"> }) {
             <button
               type="button"
               onClick={() => dialogRef.current?.close()}
-              style={{
-                padding: "10px 20px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-                cursor: "pointer",
-                backgroundColor: "#f0f0f0"
-              }}
             >
               Close
             </button>

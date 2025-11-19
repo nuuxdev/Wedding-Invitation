@@ -3,11 +3,14 @@ import { api } from "../../convex/_generated/api";
 
 export default function WishList() {
   const wishes = useQuery(api.wish.findAll);
-  if (wishes === undefined) return <div>loading...</div>;
+
+  if (wishes === undefined) {
+    return <div className="text-center" style={{ padding: '2rem' }}>Loading wishes...</div>;
+  }
 
   return (
     <div>
-      <h2>Wish List</h2>
+      <h3 className="text-center">Wish List</h3>
       <ul>
         {wishes.map((wish) => (
           <li key={wish._id}>
