@@ -1,13 +1,86 @@
-import { v } from "convex/values";
+import { Infer, v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { insertWish } from "./wish";
 import { getAuthUserId } from "@convex-dev/auth/server";
+
+
+//Types
+
 
 export const VwillAttend = v.union(
   v.literal("yes"),
   v.literal("no"),
   v.literal("maybe"),
 );
+
+export type TwillAttend = Infer<typeof VwillAttend>;
+
+
+export type TaddNewResponse = {
+  success: boolean;
+  message: string;
+  verifyUrl: string;
+};
+
+//Find All
+
+export const findAll = query({
+  args: {},
+  handler: async (ctx) => {
+    const userId = await getAuthUserId(ctx);
+    if (!userId) return;
+    const attendanceList = await ctx.db.query("attendance").collect();
+    return attendanceList;
+  },
+});
+
+//Add New
+
+export const addNew = mutation({
+  args: {
+    guestId: v.id("guest"),
+    fullName: v.string(),
+    willAttend: VwillAttend,
+    message: v.string(),
+  },
+  handler: async (ctx, args): Promise<TaddNewResponse> => {
+    const attendanceExists = await ctx.db
+      .query("attendance")
+      .withIndex("by_guestId", (q) => q.eq("guestId", args.guestId))
+      .unique();
+    if (attendanceExists) {
+      return {
+        success: false,
+        message: "attendance already filled",
+        verifyUrl: "",
+      };
+    }
+
+    await ctx.db.insert("attendance", {
+      fullName: args.fullName,
+      willAttend: args.willAttend,
+      guestId: args.guestId,
+    });
+    await insertWish(ctx, {
+      message: args.message,
+      guestId: args.guestId,
+      fullName: args.fullName,
+    });
+
+    const token = await generateSignedToken(args.guestId);
+
+    const verifyUrl = `https://wedding-invitation-nine-sage.vercel.app/verify?token=${token}`;
+
+
+    return {
+      success: true,
+      message: "attendance recorded successfully",
+      verifyUrl,
+    };
+  },
+});
+
+//verify guest
 
 export const verifyGuest = mutation({
   args: {
@@ -68,76 +141,15 @@ export const verifyGuest = mutation({
   },
 });
 
+// helper functions
+
+//parse token
+
 function parseToken(token: string) {
   const decoded = atob(token);
   const [guestId, signature] = decoded.split(".");
   return { guestId, signature };
 }
-
-export type TaddNewResponse = {
-  success: boolean;
-  message: string;
-  qrCode: string;
-  verifyUrl: string;
-};
-
-export const findAll = query({
-  args: {},
-  handler: async (ctx) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) return;
-    const attendanceList = await ctx.db.query("attendance").collect();
-    return attendanceList;
-  },
-});
-
-export const addNew = mutation({
-  args: {
-    guestId: v.id("guest"),
-    fullName: v.string(),
-    willAttend: VwillAttend,
-    message: v.string(),
-  },
-  handler: async (ctx, args): Promise<TaddNewResponse> => {
-    const attendanceId = await ctx.db
-      .query("attendance")
-      .withIndex("by_guestId", (q) => q.eq("guestId", args.guestId))
-      .unique();
-    if (attendanceId) {
-      console.log(attendanceId);
-      return {
-        success: false,
-        message: "attendance already filled",
-        qrCode: "",
-        verifyUrl: "",
-      };
-    }
-
-    await ctx.db.insert("attendance", {
-      fullName: args.fullName,
-      willAttend: args.willAttend,
-      guestId: args.guestId,
-    });
-    await insertWish(ctx, {
-      message: args.message,
-      guestId: args.guestId,
-      fullName: args.fullName,
-    });
-
-    const token = await generateSignedToken(args.guestId);
-
-    const verifyUrl = `https://wedding-invitation-nine-sage.vercel.app/verify?token=${token}`;
-
-    //i want to return the qr code additional to the message and the success boolean
-
-    return {
-      success: true,
-      message: "attendance recorded successfully",
-      qrCode: "",
-      verifyUrl,
-    };
-  },
-});
 
 //qrcode
 
