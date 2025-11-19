@@ -9,9 +9,76 @@ export const VwillAttend = v.union(
   v.literal("maybe"),
 );
 
+export const verifyGuest = mutation({
+  args: {
+    token: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const { guestId, signature } = parseToken(args.token);
+    const secret = process.env.QR_SECRET || "default_secret_key";
+    const enc = new TextEncoder();
+    const key = await crypto.subtle.importKey(
+      "raw",
+      enc.encode(secret),
+      { name: "HMAC", hash: "SHA-256" },
+      false,
+      ["sign"]
+    );
+    const expectedSignature = await crypto.subtle.sign(
+      "HMAC",
+      key,
+      enc.encode(guestId)
+    );
+    const expectedSignatureHex = Array.from(new Uint8Array(expectedSignature))
+      .map((b) => b.toString(16).padStart(2, "0"))
+      .join("");
+
+    if (signature !== expectedSignatureHex) {
+      return {
+        success: false,
+        message: "Invalid token signature",
+      };
+    }
+
+    const normalizedGuestId = ctx.db.normalizeId("guest", guestId);
+    if (!normalizedGuestId) {
+      return {
+        success: false,
+        message: "Invalid guest ID",
+      };
+    }
+    const guest = await ctx.db.get(normalizedGuestId);
+    if (!guest) {
+      return {
+        success: false,
+        message: "Guest not found",
+      };
+    }
+
+    const attendance = await ctx.db
+      .query("attendance")
+      .withIndex("by_guestId", (q) => q.eq("guestId", guest._id))
+      .unique();
+
+    return {
+      success: true,
+      guest,
+      attendance,
+    };
+  },
+});
+
+function parseToken(token: string) {
+  const decoded = atob(token);
+  const [guestId, signature] = decoded.split(".");
+  return { guestId, signature };
+}
+
 export type TaddNewResponse = {
   success: boolean;
   message: string;
+  qrCode: string;
+  verifyUrl: string;
 };
 
 export const findAll = query({
@@ -38,7 +105,12 @@ export const addNew = mutation({
       .unique();
     if (attendanceId) {
       console.log(attendanceId);
-      return { success: false, message: "attendance already filled" };
+      return {
+        success: false,
+        message: "attendance already filled",
+        qrCode: "",
+        verifyUrl: "",
+      };
     }
 
     await ctx.db.insert("attendance", {
@@ -52,6 +124,40 @@ export const addNew = mutation({
       fullName: args.fullName,
     });
 
-    return { success: true, message: "attendance recorded successfully" };
+    const token = await generateSignedToken(args.guestId);
+
+    const verifyUrl = `https://wedding-invitation-nine-sage.vercel.app/verify?token=${token}`;
+
+    //i want to return the qr code additional to the message and the success boolean
+
+    return {
+      success: true,
+      message: "attendance recorded successfully",
+      qrCode: "",
+      verifyUrl,
+    };
   },
 });
+
+//qrcode
+
+async function generateSignedToken(guestId: string) {
+  const secret = process.env.QR_SECRET || "default_secret_key";
+  const enc = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    enc.encode(secret),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"]
+  );
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    key,
+    enc.encode(guestId)
+  );
+  const signatureHex = Array.from(new Uint8Array(signature))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+  return btoa(`${guestId}.${signatureHex}`);
+}

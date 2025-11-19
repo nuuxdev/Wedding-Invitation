@@ -1,4 +1,4 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Doc } from "../../convex/_generated/dataModel";
@@ -7,15 +7,25 @@ type Tprops = {
   guest: Doc<"guest">;
 };
 
+import QRCode from "qrcode";
+
 export default function Form({ guest }: Tprops) {
   const addNew = useMutation(api.attendance.addNew);
   const [willAttend, setWillAttend] = useState<"yes" | "no" | "maybe">("yes");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [qrCode, setQrCode] = useState("");
+  const dialogRef = useRef<HTMLDialogElement>(null);
+
+  useEffect(() => {
+    if (!!qrCode) {
+      console.log(qrCode);
+      dialogRef.current?.showModal();
+    }
+  }, [qrCode]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
     try {
       setLoading(true);
       const response = await addNew({
@@ -24,9 +34,18 @@ export default function Form({ guest }: Tprops) {
         willAttend: willAttend,
         message: message,
       });
-
-      setMessage("");
-      alert(`${response.success ? "Success" : "Error"}: ${response.message}`);
+      if (response.success) {
+        setMessage("");
+        if (response.verifyUrl) {
+          const url = await QRCode.toDataURL(response.verifyUrl, {
+            errorCorrectionLevel: "H",
+            width: 300,
+          });
+          setQrCode(url);
+        }
+      } else {
+        alert(`Error: ${response.message}`);
+      }
     } catch (error) {
       console.error("Failed to submit:", error);
     } finally {
@@ -35,7 +54,7 @@ export default function Form({ guest }: Tprops) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={(e) => handleSubmit(e)}>
       <input
         type="text"
         value={`${guest.firstName} ${guest.lastName}`}
@@ -61,6 +80,10 @@ export default function Form({ guest }: Tprops) {
       <button type="submit" disabled={loading}>
         {loading ? "Loading" : "Submit"}
       </button>
+      <dialog ref={dialogRef}>
+        <img src={qrCode || undefined} alt="qrCode" width={200} height={200} />
+        <button onClick={() => dialogRef.current?.close()}>X</button>
+      </dialog>
     </form>
   );
 }
