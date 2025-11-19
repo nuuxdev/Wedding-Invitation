@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { query } from "./_generated/server";
+import { query, mutation } from "./_generated/server";
 
 export const findOne = query({
   args: {
@@ -19,5 +19,14 @@ export const findAll = query({
   args: {},
   handler: async (ctx) => {
     return await ctx.db.query("guest").collect();
+  },
+});
+
+export const markInvited = mutation({
+  args: {
+    id: v.id("guest"),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.id, { invited: true });
   },
 });

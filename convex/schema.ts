@@ -15,6 +15,7 @@ export default defineSchema({
     firstName: v.string(),
     lastName: v.string(),
     phoneNumber: v.string(),
+    invited: v.optional(v.boolean()),
   }),
   wish: defineTable({
     message: v.string(),

@@ -216,6 +216,8 @@ function StatCard({ label, value, color = "#333" }: { label: string; value: numb
 
 function GuestListTab() {
   const guests = useQuery(api.guest.findAll);
+  const markInvited = useMutation(api.guest.markInvited);
+  const [interactingGuestId, setInteractingGuestId] = useState<string | null>(null);
 
   if (guests === undefined) return <div>Loading guests...</div>;
 
@@ -224,10 +226,21 @@ function GuestListTab() {
     return `Hello ${guest.firstName}, you are invited to our wedding! Please RSVP using this link: ${link}\n\nInstructions: Fill out the form and save the QR code displayed. You will need to show this QR code at the entrance.`;
   };
 
-  const handleCopy = (message: string) => {
+  const handleCopy = (message: string, guestId: string) => {
     navigator.clipboard.writeText(message).then(() => {
       alert("Message copied to clipboard!");
+      setInteractingGuestId(guestId);
     });
+  };
+
+  const handleSmsClick = (guestId: string) => {
+    setInteractingGuestId(guestId);
+  };
+
+  const handleConfirmInvited = async (guestId: string) => {
+    // @ts-ignore
+    await markInvited({ id: guestId });
+    setInteractingGuestId(null);
   };
 
   return (
@@ -241,11 +254,22 @@ function GuestListTab() {
 
             return (
               <div key={guest._id} style={{ padding: "15px", borderRadius: "8px", border: "1px solid #eee", backgroundColor: "#f9f9f9" }}>
-                <h3 style={{ margin: "0 0 5px 0", fontSize: "1.1rem" }}>{guest.firstName} {guest.lastName}</h3>
-                <p style={{ margin: "0 0 10px 0", color: "#666" }}>{guest.phoneNumber}</p>
-                <div style={{ display: "flex", gap: "10px" }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
+                  <div>
+                    <h3 style={{ margin: "0 0 5px 0", fontSize: "1.1rem" }}>{guest.firstName} {guest.lastName}</h3>
+                    <p style={{ margin: "0 0 10px 0", color: "#666" }}>{guest.phoneNumber}</p>
+                  </div>
+                  {guest.invited && (
+                    <span style={{ backgroundColor: "#e6fffa", color: "green", padding: "2px 6px", borderRadius: "4px", fontSize: "0.8rem", border: "1px solid green" }}>
+                      Invited
+                    </span>
+                  )}
+                </div>
+
+                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
                   <a
                     href={smsLink}
+                    onClick={() => handleSmsClick(guest._id)}
                     style={{
                       flex: 1,
                       textAlign: "center",
@@ -254,13 +278,14 @@ function GuestListTab() {
                       color: "white",
                       textDecoration: "none",
                       borderRadius: "5px",
-                      fontSize: "0.9rem"
+                      fontSize: "0.9rem",
+                      minWidth: "80px"
                     }}
                   >
                     Send SMS
                   </a>
                   <button
-                    onClick={() => handleCopy(message)}
+                    onClick={() => handleCopy(message, guest._id)}
                     style={{
                       flex: 1,
                       padding: "8px",
@@ -269,11 +294,31 @@ function GuestListTab() {
                       border: "none",
                       borderRadius: "5px",
                       cursor: "pointer",
-                      fontSize: "0.9rem"
+                      fontSize: "0.9rem",
+                      minWidth: "80px"
                     }}
                   >
                     Copy Msg
                   </button>
+
+                  {interactingGuestId === guest._id && !guest.invited && (
+                    <button
+                      onClick={() => handleConfirmInvited(guest._id)}
+                      style={{
+                        flex: "1 1 100%",
+                        padding: "8px",
+                        backgroundColor: "#FF9800",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                        fontSize: "0.9rem",
+                        marginTop: "5px"
+                      }}
+                    >
+                      Confirm Invitation Sent
+                    </button>
+                  )}
                 </div>
               </div>
             );
