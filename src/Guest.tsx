@@ -108,7 +108,7 @@ export default function Guest() {
               <section className="couple-section" style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
                 <div>
                   <img
-                    src="https://plus.unsplash.com/premium_photo-1689568126014-06fea9d5d341?q=80&w=1470&auto=format&fit=crop"
+                    src="/5.webp"
                     alt="Abiy Sebsibe"
                   />
                   <h3>Abiy Sebsibe</h3>
@@ -118,7 +118,7 @@ export default function Guest() {
                 </div>
                 <div>
                   <img
-                    src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?q=80&w=1470&auto=format&fit=crop"
+                    src="/bride.webp"
                     alt="Eden Andualem"
                   />
                   <h3>Eden Andualem</h3>
