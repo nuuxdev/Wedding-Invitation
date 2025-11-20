@@ -264,8 +264,8 @@
     /* Open State */
     &.open {
       background: rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(3px);
-      -webkit-backdrop-filter: blur(3px);
+      backdrop-filter: blur(1px);
+      -webkit-backdrop-filter: blur(1px);
 
       /* Reveal Border */
       &::before {
@@ -274,6 +274,7 @@
 
       /* Reveal Image (2px smaller for border effect) */
       &::after {
+        background-size: 146%;
         /* We need to recalculate the inset for the inner image to be 2px smaller */
         /* Since we can't easily subtract 2px from the complex inset variable, we reconstruct it using the base vars */
         clip-path: inset(calc(50% - (var(--clip-h-open) - 2px)) calc(50% - (var(--clip-w-open) - 2px)) calc(50% - (var(--clip-h-open) - 2px)) calc(50% - (var(--clip-w-open) - 2px)) round 58px 0 58px 0);
@@ -285,6 +286,7 @@
         }
 
         &::after {
+          background-size: 100%;
           clip-path: inset(calc(50% - (var(--clip-h-open) - 2px)) calc(50% - (var(--clip-w-open) - 2px)) calc(50% - (var(--clip-h-open) - 2px)) calc(50% - (var(--clip-w-open) - 2px)) round 78px 0 78px 0);
         }
       }
@@ -308,11 +310,11 @@
       position: absolute;
       inset: 0;
       background-image: url("/cover.webp");
-      background-size: cover;
+      background-size: 50%;
       background-position: center;
-
+      background-repeat: no-repeat;
       clip-path: inset(calc(50% - (var(--clip-h-closed) - 2px)) calc(50% - (var(--clip-w-closed) - 2px)) calc(50% - (var(--clip-h-closed) - 2px)) calc(50% - (var(--clip-w-closed) - 2px)) round 29px 0 29px 0);
-      transition: clip-path 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: clip-path 1.5s cubic-bezier(0.22, 1, 0.36, 1), background-size 2s cubic-bezier(0.22, 1, 0.36, 1);
       z-index: 2;
     }
   }
@@ -367,10 +369,6 @@
       h1 {
         color: var(--color-white);
         font-size: 4rem;
-      }
-
-      p {
-        color: var(--color-gold);
       }
     }
 
