@@ -65,13 +65,13 @@ export default function Guest() {
         <>
           <div className="hero">
             <div className={`visual-effects ${openInvitation ? "open" : ""}`}></div>
-
-            <div className={`hero-content ${openInvitation ? "open-layout" : ""}`}>
+            <div className={`flower-decoration ${openInvitation ? "open" : ""}`}></div>
+            <div className={`hero-content ${openInvitation ? "open" : ""}`}>
               {!openInvitation ? (
                 <>
-                  <div className="top-text">
+                  <div className="guest-title">
                     <h2>Wedding Invitation</h2>
-                    <p style={{ color: "var(--color-white)" }}>to</p>
+                    <p>to</p>
                     <h1>
                       {guest.firstName} {guest.lastName}
                     </h1>
@@ -82,10 +82,10 @@ export default function Guest() {
                 </>
               ) : (
                 <>
-                  <h1 className="title-top">Wedding</h1>
-                  <div className="names-bottom">
+                  <h1 className="bride-groom-title">Wedding</h1>
+                  <div className="bride-groom-names">
                     <h1>Abiy</h1>
-                    <h2>&</h2>
+                    <p>&</p>
                     <h1>Eden</h1>
                   </div>
                 </>
