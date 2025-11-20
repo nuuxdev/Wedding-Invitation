@@ -200,13 +200,22 @@
       position: absolute;
       inset: var(--_inset-closed);
       pointer-events: none;
-      z-index: 10;
-      /* Ensure flowers are above visual effects but below content if needed, or just high enough */
-
       transition: inset 1.5s cubic-bezier(0.22, 1, 0.36, 1);
 
       &.open {
         inset: var(--_inset-open);
+
+        &::before {
+          bottom: -5%;
+          right: -8%;
+          scale: 1.4;
+        }
+
+        &::after {
+          top: -5%;
+          left: -8%;
+          scale: 1.4;
+        }
       }
 
       &::before {
@@ -214,11 +223,13 @@
         position: absolute;
         width: 50px;
         aspect-ratio: 1/1;
-        top: 90%;
-        left: 90%;
-        background-image: url("/flower-pink.png");
+        bottom: -9%;
+        right: -12%;
+        background-image: url("/flower-decor.png");
         background-size: cover;
         background-position: center;
+        rotate: 180deg;
+        transition: scale 1.5s cubic-bezier(0.22, 1, 0.36, 1);
       }
 
       &::after {
@@ -226,11 +237,12 @@
         position: absolute;
         width: 50px;
         aspect-ratio: 1/1;
-        bottom: 90%;
-        right: 90%;
-        background-image: url("/flower-red.png");
+        top: -9%;
+        left: -12%;
+        background-image: url("/flower-decor.png");
         background-size: cover;
         background-position: center;
+        transition: scale 1.5s cubic-bezier(0.22, 1, 0.36, 1);
       }
     }
   }
@@ -284,7 +296,7 @@
       position: absolute;
       inset: 0;
       /* acts as a white border */
-      background: rgba(255, 255, 255, 0.9);
+      background: var(--color-gold-dim);
       clip-path: inset(var(--_inset-closed) round 30px 0 30px 0);
       transition: clip-path 1.5s cubic-bezier(0.22, 1, 0.36, 1);
       z-index: 1;
