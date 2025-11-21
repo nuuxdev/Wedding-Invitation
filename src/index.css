@@ -400,9 +400,9 @@
 
   /* Open Invitation Button */
   .hero-content button {
-    background: var(--color-white);
+    background: var(--color-crimson-light);
     border: none;
-    color: var(--color-crimson-light);
+    color: var(--color-white);
     padding: 1rem 2rem;
     /* Bigger padding */
     font-family: var(--font-serif);
@@ -415,7 +415,7 @@
     transition: all 0.3s ease;
     border-radius: 0;
     /* Sharp corners */
-    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--color-crimson), transparent 50%);
     /* Golden glow */
     margin-bottom: var(--space-lg);
     /* Space from bottom edge */
