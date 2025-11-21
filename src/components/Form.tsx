@@ -4,8 +4,10 @@ import { api } from "../../convex/_generated/api";
 import { Doc } from "../../convex/_generated/dataModel";
 import QRCode from "qrcode";
 import { TwillAttend } from "../../convex/attendance";
+import { useLanguage } from "../LanguageContext";
 
 export default function Form({ guest }: { guest: Doc<"guest"> }) {
+  const { t, lang } = useLanguage();
 
   //calls
 
@@ -67,17 +69,17 @@ export default function Form({ guest }: { guest: Doc<"guest"> }) {
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
       <div className="form-group">
-        <label htmlFor="guestName">Guest Name</label>
+        <label htmlFor="guestName">{t('guestName')}</label>
         <input
           id="guestName"
           type="text"
-          value={`${guest.firstName} ${guest.lastName}`}
+          value={lang === 'am' ? `${guest.firstNameAm || guest.firstName} ${guest.lastNameAm || guest.lastName}` : `${guest.firstName} ${guest.lastName}`}
           readOnly
         />
       </div>
 
       <div className="form-group">
-        <label htmlFor="attendance">Will you attend?</label>
+        <label htmlFor="attendance">{t('willYouAttend')}</label>
         <select
           id="attendance"
           name="attendance"
@@ -86,25 +88,25 @@ export default function Form({ guest }: { guest: Doc<"guest"> }) {
             setWillAttend(e.target.value as TwillAttend)
           }
         >
-          <option value="yes">Yes, I will attend</option>
-          <option value="no">I can't make it</option>
-          <option value="maybe">Maybe</option>
+          <option value="yes">{t('yes')}</option>
+          <option value="no">{t('no')}</option>
+          <option value="maybe">{t('maybe')}</option>
         </select>
       </div>
 
       <div className="form-group">
-        <label htmlFor="wish">Your Wish Message</label>
+        <label htmlFor="wish">{t('yourWishMessage')}</label>
         <textarea
           name="wish"
           id="wish"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Share your wishes for the couple..."
+          placeholder={t('shareYourWishes')}
         />
       </div>
 
       <button type="submit" disabled={loading}>
-        {loading ? "Loading" : "Submit RSVP"}
+        {loading ? t('loading') : t('submit')}
       </button>
 
       <dialog
@@ -113,8 +115,8 @@ export default function Form({ guest }: { guest: Doc<"guest"> }) {
           document.body.style.overflow = "unset";
         }}
       >
-        <h3>Attendance Confirmed!</h3>
-        <p>Please save this QR code and show it at the entrance on the wedding day.</p>
+        <h3>{t('attendanceConfirmed')}</h3>
+        <p>{t('saveQrCode')}</p>
         <div>
           <img src={qrCode || undefined} alt="qrCode" width={250} height={250} />
         </div>
@@ -124,14 +126,14 @@ export default function Form({ guest }: { guest: Doc<"guest"> }) {
             download={`wedding-invite-${guest.firstName}-${guest.lastName}.png`}
             onClick={() => setDownloaded(true)}
           >
-            Download QR Code
+            {t('downloadQrCode')}
           </a>
           {downloaded && (
             <button
               type="button"
               onClick={() => dialogRef.current?.close()}
             >
-              Close
+              {t('close')}
             </button>
           )}
         </div>

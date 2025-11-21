@@ -10,10 +10,12 @@ import { GuestListTab } from "./views/GuestListTab";
 import { AttendanceTab } from "./views/AttendanceTab";
 import { WishesTab } from "./views/WishesTab";
 import { ScannerSection } from "./views/ScannerSection";
+import LanguageToggle from "./components/LanguageToggle";
 
 export default function Admin() {
   return (
     <>
+      <LanguageToggle />
       <Authenticated>
         <AdminApp />
       </Authenticated>
