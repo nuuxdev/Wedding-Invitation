@@ -30,4 +30,15 @@ export default defineSchema({
   })
     .index("by_guestId", ["guestId"])
     .index("by_willAttend", ["willAttend"]),
+  weddingInfo: defineTable({
+    brideFirstName: v.string(),
+    brideLastName: v.string(),
+    groomFirstName: v.string(),
+    groomLastName: v.string(),
+    weddingDate: v.string(),
+    weddingPlace: v.string(),
+    weddingLocationLink: v.string(),
+    brideInstagram: v.string(),
+    groomInstagram: v.string(),
+  }),
 });
