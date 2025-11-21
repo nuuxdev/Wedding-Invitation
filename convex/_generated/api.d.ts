@@ -14,6 +14,7 @@ import type * as guest from "../guest.js";
 import type * as http from "../http.js";
 import type * as myFunctions from "../myFunctions.js";
 import type * as stats from "../stats.js";
+import type * as weddingInfo from "../weddingInfo.js";
 import type * as wish from "../wish.js";
 
 import type {
@@ -29,6 +30,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   myFunctions: typeof myFunctions;
   stats: typeof stats;
+  weddingInfo: typeof weddingInfo;
   wish: typeof wish;
 }>;
 
