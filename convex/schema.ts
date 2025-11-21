@@ -16,6 +16,8 @@ export default defineSchema({
     lastName: v.string(),
     phoneNumber: v.string(),
     invited: v.optional(v.boolean()),
+    firstNameAm: v.optional(v.string()),
+    lastNameAm: v.optional(v.string()),
   }),
   wish: defineTable({
     message: v.string(),
@@ -40,5 +42,11 @@ export default defineSchema({
     weddingLocationLink: v.string(),
     brideInstagram: v.string(),
     groomInstagram: v.string(),
+    // Amharic Fields
+    brideFirstNameAm: v.optional(v.string()),
+    brideLastNameAm: v.optional(v.string()),
+    groomFirstNameAm: v.optional(v.string()),
+    groomLastNameAm: v.optional(v.string()),
+    weddingPlaceAm: v.optional(v.string()),
   }),
 });

@@ -6,6 +6,8 @@ import Countdown from "react-countdown";
 import Form from "./components/Form";
 import WishList from "./components/WishList";
 import Gallery from "./components/Gallery";
+import { useLanguage } from "./LanguageContext";
+import LanguageToggle from "./components/LanguageToggle";
 
 export default function Guest() {
   const [openInvitation, setOpenInvitation] = useState(false);
@@ -13,15 +15,12 @@ export default function Guest() {
   const navigate = useNavigate();
   const guest = useQuery(api.guest.findOne, guestId ? { id: guestId } : "skip");
   const weddingInfo = useQuery(api.weddingInfo.get);
+  const { t, lang } = useLanguage();
 
   if (guest === null || weddingInfo === null) {
     navigate("/error");
     return null;
   }
-
-  const location = weddingInfo?.weddingPlace?.split(',')[0]
-  const city = weddingInfo?.weddingPlace?.split(',')[1]
-  const country = weddingInfo?.weddingPlace?.split(',')[2]
 
   const renderer = ({
     days,
@@ -68,70 +67,75 @@ export default function Guest() {
         <div className="loading">Loading...</div>
       ) : (
         <>
-          <div className="hero">
+          {/* Hero Section */}
+          <section className={`hero ${openInvitation ? "open" : ""}`}>
             <div className={`visual-effects ${openInvitation ? "open" : ""}`}></div>
             <div className={`flower-decoration ${openInvitation ? "open" : ""}`}></div>
+            <LanguageToggle />
             <div className={`hero-content ${openInvitation ? "open" : ""}`}>
-              {!openInvitation ? (
-                <>
+              <>
+
+                {openInvitation && (
+                  <>
+                    <h2>{t('weddingInvitation')}</h2>
+                    <div className="bride-groom-names">
+                      <h1>{lang === 'am' ? (weddingInfo?.groomFirstNameAm || weddingInfo?.groomFirstName) : weddingInfo?.groomFirstName}</h1>
+                      <span className="ampersand">&</span>
+                      <h1>{lang === 'am' ? (weddingInfo?.brideFirstNameAm || weddingInfo?.brideFirstName) : weddingInfo?.brideFirstName}</h1>
+                      <a href="#save-the-date" className="scroll-down-arrow">
+                        <img src="/down.png" alt="Scroll Down" width={28} height={28} />
+                      </a>
+                    </div>
+                  </>
+                )}
+                {!openInvitation && (
                   <div className="guest-title">
-                    <h2>Wedding Invitation</h2>
-                    <p>to</p>
+                    <h2>{t('weddingInvitation')}</h2>
+                    <p>{t('to')}</p>
                     <h1>
-                      {guest.firstName} {guest.lastName}
+                      {lang === 'am' ? (guest?.firstNameAm || guest?.firstName) : guest?.firstName} {lang === 'am' ? (guest?.lastNameAm || guest?.lastName) : guest?.lastName}
                     </h1>
                   </div>
-                  <button onClick={() => setOpenInvitation(true)}>
-                    Open Invitation
-                  </button>
-                </>
-              ) : (
-                <>
-                  <h1 className="bride-groom-title">Wedding</h1>
-                  <div className="bride-groom-names">
-                    <h1>{weddingInfo?.groomFirstName || "Groom"}</h1>
-                    <p>&</p>
-                    <h1>{weddingInfo?.brideFirstName || "Bride"}</h1>
-                    <a href="#save-the-date" className="scroll-down-arrow">
-                      <img src="/down.png" alt="Scroll Down" width={28} height={28} />
-                    </a>
-                  </div>
+                )}
+              </>
 
-                </>
+              {!openInvitation && (
+                <button onClick={() => setOpenInvitation(true)}>
+                  {t('openInvitation')}
+                </button>
               )}
+
+
             </div>
-          </div>
+            <div className="hero-overlay"></div>
+          </section>
 
           {openInvitation && (
-            <div className="content-wrapper">
-              {/* Date & Location Section */}
-              <section className="text-center" id="save-the-date">
-                <h3>Save the Date</h3>
-                <Countdown date={weddingInfo?.weddingDate || "2026-01-01"} renderer={renderer} />
-                <p className="uppercase" style={{ marginTop: '2rem', letterSpacing: '0.2em' }}>
-                  {weddingInfo?.weddingDate ? new Date(weddingInfo.weddingDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) : "January 1st, 2026"}
-                </p>
-
-                <div style={{ marginTop: '3rem' }}>
-                  <h3>{location || "Location"}</h3>
-                  <p><span>{city || "City"},</span><span>{country || "Country"}</span></p>
+            <div className="content-scroll">
+              {/* Save the Date & Location */}
+              <section id="save-the-date" className="text-center" style={{ padding: 'var(--space-xl) 0' }}>
+                <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>{t('saveTheDate')}</h2>
+                <div className="countdown-container" style={{ margin: '2rem 0' }}>
+                  <Countdown
+                    date={new Date(weddingInfo?.weddingDate || Date.now())}
+                    renderer={renderer}
+                  />
+                </div>
+                <div style={{ marginTop: '2rem' }}>
+                  <p style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>
+                    {new Date(weddingInfo?.weddingDate || Date.now()).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                  </p>
+                  <p style={{ fontSize: '1.2rem', opacity: 0.8 }}>
+                    {lang === 'am' ? (weddingInfo?.weddingPlaceAm || weddingInfo?.weddingPlace) : weddingInfo?.weddingPlace}
+                  </p>
                   <a
-                    href={weddingInfo?.weddingLocationLink || "#"}
+                    href={weddingInfo?.weddingLocationLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    style={{
-                      marginTop: '1rem',
-                      background: 'transparent',
-                      border: '1px solid var(--color-crimson)',
-                      color: 'var(--color-crimson)',
-                      padding: '0.5rem 1.5rem',
-                      cursor: 'pointer',
-                      textDecoration: 'none',
-                      display: 'inline-block',
-                      fontFamily: 'var(--font-serif)'
-                    }}
+                    className="button-outline"
+                    style={{ marginTop: '1.5rem', display: 'inline-block' }}
                   >
-                    View Map
+                    {t('viewMap')}
                   </a>
                 </div>
               </section>
@@ -145,7 +149,7 @@ export default function Guest() {
                       alt={`${weddingInfo?.groomFirstName} ${weddingInfo?.groomLastName}`}
                     />
                   </div>
-                  <h3>{weddingInfo?.groomFirstName} {weddingInfo?.groomLastName}</h3>
+                  <h3>{lang === 'am' ? (weddingInfo?.groomFirstNameAm || weddingInfo?.groomFirstName) : weddingInfo?.groomFirstName} {lang === 'am' ? (weddingInfo?.groomLastNameAm || weddingInfo?.groomLastName) : weddingInfo?.groomLastName}</h3>
                   <a href={weddingInfo?.groomInstagram || "#"} target="_blank" rel="noopener noreferrer">
                     <img src="/instagram.png" alt="Instagram" style={{ width: '24px', height: '24px', display: 'inline-block', border: 'none', borderRadius: 0, outline: 'none', boxShadow: 'none' }} />
                   </a>
@@ -157,7 +161,7 @@ export default function Guest() {
                       alt={`${weddingInfo?.brideFirstName} ${weddingInfo?.brideLastName}`}
                     />
                   </div>
-                  <h3>{weddingInfo?.brideFirstName} {weddingInfo?.brideLastName}</h3>
+                  <h3>{lang === 'am' ? (weddingInfo?.brideFirstNameAm || weddingInfo?.brideFirstName) : weddingInfo?.brideFirstName} {lang === 'am' ? (weddingInfo?.brideLastNameAm || weddingInfo?.brideLastName) : weddingInfo?.brideLastName}</h3>
                   <a href={weddingInfo?.brideInstagram || "#"} target="_blank" rel="noopener noreferrer">
                     <img src="/instagram.png" alt="Instagram" style={{ width: '24px', height: '24px', display: 'inline-block', border: 'none', borderRadius: 0, outline: 'none', boxShadow: 'none' }} />
                   </a>
@@ -166,12 +170,10 @@ export default function Guest() {
 
               {/* Story / Intro */}
               <section className="text-center" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                <h3>Our Story</h3>
-                <p style={{ fontStyle: 'italic', color: 'var(--color-stone)' }}>
-                  "Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Ratione, mollitia, incidunt sunt laboriosam ad est quia quod
-                  adipisci nulla possimus doloremque similique accusantium
-                  voluptas eligendi omnis alias dolorum ullam vel."
+                <h2>{t('ourStory')}</h2>
+                <p style={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
+                  {/* Hardcoded story for now, could be dynamic */}
+                  {lang === 'am' ? "ፍቅራችን የጀመረው..." : "Our love story began..."}
                 </p>
               </section>
 
@@ -181,8 +183,8 @@ export default function Guest() {
 
               {/* Thank You Section */}
               <section className="text-center" style={{ padding: 'var(--space-xl) 0' }}>
-                <h2 style={{ fontSize: 'clamp(4rem, 10vw, 6rem)', color: 'var(--color-crimson)' }}>Thank You</h2>
-                <p style={{ fontSize: '1.5rem', fontStyle: 'italic', marginTop: '1rem' }}>For being a part of our journey</p>
+                <h2 style={{ fontSize: lang === 'am' ? 'clamp(3rem, 8vw, 5rem)' : 'clamp(4rem, 10vw, 6rem)', color: 'var(--color-crimson)' }}>{t('thankYou')}</h2>
+                <p style={{ fontSize: '1.5rem', fontStyle: 'italic', marginTop: '1rem' }}>{t('thankYouSub')}</p>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem', opacity: 0.6 }}>
                   <img src="/floral.png" alt="decoration" width={80} />
                 </div>

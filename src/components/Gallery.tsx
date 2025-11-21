@@ -1,4 +1,7 @@
+import { useLanguage } from "../LanguageContext";
+
 export default function Gallery() {
+  const { t } = useLanguage();
   const images = [
     "/1.webp",
     "/2.webp",
@@ -12,7 +15,7 @@ export default function Gallery() {
   ];
   return (
     <div className="gallery-section">
-      <h3 className="text-center">Captured Moments</h3>
+      <h3 className="text-center">{t('capturedMoments')}</h3>
       <div className="gallery">
         {images.map((imageUrl, i) => (
           <img key={i} src={imageUrl} alt={`photo-${i + 1}`} />
