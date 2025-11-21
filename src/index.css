@@ -44,6 +44,7 @@
   :root {
     overflow: auto;
     scrollbar-gutter: stable;
+    scroll-behavior: smooth;
     /* scrollbar-color: transparent rgb(0, 0, 0, 0, 0.2); */
     /* Palette: Ethereal Romance */
     --color-crimson: #ff6b6b;
@@ -203,8 +204,8 @@
       position: absolute;
       inset: 0;
       pointer-events: none;
-      z-index: 5;
-      background: linear-gradient(to bottom, var(--color-champagne) 0%, transparent 15%, transparent 85%, var(--color-champagne) 100%);
+      background: linear-gradient(to bottom, var(--color-champagne) 0%, transparent 20%, transparent 80%, var(--color-champagne) 100%);
+      z-index: 2;
     }
 
     .flower-decoration {
@@ -212,6 +213,7 @@
       inset: var(--_inset-closed);
       pointer-events: none;
       transition: inset 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+      z-index: 1;
 
       &.open {
         inset: var(--_inset-open);
@@ -263,7 +265,7 @@
     position: absolute;
     inset: 0;
     pointer-events: none;
-    z-index: -1;
+    z-index: 0;
 
     /* Blur and Tint */
     backdrop-filter: blur(12px);
@@ -342,6 +344,8 @@
     text-align: center;
     padding: var(--space-xl) var(--space-md);
     transition: all 0.5s ease;
+    position: relative;
+    z-index: 3;
 
     /* the & symbol in both the guest and bridegroom title */
     p {
@@ -376,10 +380,31 @@
       align-items: center;
       justify-content: center;
       gap: var(--space-md);
+      position: relative;
 
       h1 {
         color: var(--color-white);
         font-size: 4rem;
+        text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      }
+
+      .scroll-down-arrow {
+        /* margin-top: var(--space-md); */
+        cursor: pointer;
+        animation: pulse-scale 2s infinite ease-in-out;
+        background: transparent;
+        border: none;
+        padding: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        transition: transform 0.3s ease;
+        position: absolute;
+        bottom: -30%;
+
+        &:hover {
+          transform: scale(1.1);
+        }
       }
     }
 
@@ -400,9 +425,9 @@
 
   /* Open Invitation Button */
   .hero-content button {
-    background: var(--color-white);
+    background: var(--color-crimson-light);
     border: none;
-    color: var(--color-crimson-light);
+    color: var(--color-white);
     padding: 1rem 2rem;
     /* Bigger padding */
     font-family: var(--font-serif);
@@ -415,7 +440,7 @@
     transition: all 0.3s ease;
     border-radius: 0;
     /* Sharp corners */
-    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
+    box-shadow: 0 4px 20px color-mix(in srgb, var(--color-crimson), transparent 50%);
     /* Golden glow */
     margin-bottom: var(--space-lg);
     /* Space from bottom edge */
@@ -431,6 +456,8 @@
       box-shadow: 0 6px 25px rgba(255, 255, 255, 0.4);
     }
   }
+
+
 
   /* Countdown Section */
   .countdown-grid {
@@ -567,7 +594,7 @@
     }
 
     button[type="submit"] {
-      background-color: var(--color-crimson);
+      background-color: var(--color-crimson-light);
       color: var(--color-white);
       border: none;
       padding: var(--space-md) var(--space-xl);
@@ -599,7 +626,7 @@
 
     li {
       background: var(--color-surface);
-      padding: var(--space-lg);
+      padding: var(--space-sm);
       box-shadow: var(--shadow-card);
       border-top: 3px solid var(--color-gold);
 
@@ -626,29 +653,83 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: var(--space-sm);
+    grid-auto-rows: 200px;
 
     @media (min-width: 768px) {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(4, 200px);
+      grid-template-areas:
+        "one one two three"
+        "one one four five"
+        "six seven eight eight"
+        "nine seven eight eight";
     }
 
     img {
       width: 100%;
-      aspect-ratio: 3/4;
-      /* Portrait aspect ratio */
+      height: 100%;
       object-fit: cover;
       border-radius: var(--radius-sm);
-      /* Arched top */
       border: 4px solid var(--color-surface);
       outline: 1px solid var(--color-gold);
       box-shadow: var(--shadow-soft);
-      margin-bottom: var(--space-md);
       transition: opacity 0.3s;
 
       &:hover {
         opacity: 0.9;
       }
+
+      /* Mobile spans (simple alternating) */
+      &:nth-child(3n+1) {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
     }
 
+    /* Desktop Grid Areas */
+    @media (min-width: 768px) {
+      img:nth-child(1) {
+        grid-area: one;
+      }
+
+      img:nth-child(2) {
+        grid-area: two;
+      }
+
+      img:nth-child(3) {
+        grid-area: three;
+      }
+
+      img:nth-child(4) {
+        grid-area: four;
+      }
+
+      img:nth-child(5) {
+        grid-area: five;
+      }
+
+      img:nth-child(6) {
+        grid-area: six;
+      }
+
+      img:nth-child(7) {
+        grid-area: seven;
+      }
+
+      img:nth-child(8) {
+        grid-area: eight;
+      }
+
+      img:nth-child(9) {
+        grid-area: nine;
+      }
+
+      /* Reset mobile spans */
+      img {
+        grid-column: auto;
+        grid-row: auto;
+      }
+    }
   }
 
   /* Dialog / Modal */

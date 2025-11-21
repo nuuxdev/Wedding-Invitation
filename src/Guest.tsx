@@ -87,7 +87,11 @@ export default function Guest() {
                     <h1>Abiy</h1>
                     <p>&</p>
                     <h1>Eden</h1>
+                    <a href="#save-the-date" className="scroll-down-arrow">
+                      <img src="/down.png" alt="Scroll Down" width={28} height={28} />
+                    </a>
                   </div>
+
                 </>
               )}
             </div>
@@ -96,7 +100,7 @@ export default function Guest() {
           {openInvitation && (
             <div className="content-wrapper">
               {/* Save the Date Section */}
-              <section className="text-center">
+              <section className="text-center" id="save-the-date">
                 <h3>Save the Date</h3>
                 <Countdown date="2026-01-01" renderer={renderer} />
                 <p className="uppercase" style={{ marginTop: '2rem', letterSpacing: '0.2em' }}>
@@ -113,7 +117,7 @@ export default function Guest() {
                   />
                   <h3>Abiy Sebsibe</h3>
                   <a href="https://www.instagram.com/henooks" target="_blank" rel="noopener noreferrer">
-                    @henooks
+                    <img src="/instagram.png" alt="Instagram" style={{ width: '24px', height: '24px', display: 'inline-block', border: 'none', borderRadius: 0, outline: 'none', boxShadow: 'none' }} />
                   </a>
                 </div>
                 <div>
@@ -123,7 +127,7 @@ export default function Guest() {
                   />
                   <h3>Eden Andualem</h3>
                   <a href="https://www.instagram.com/henooks" target="_blank" rel="noopener noreferrer">
-                    @eden
+                    <img src="/instagram.png" alt="Instagram" style={{ width: '24px', height: '24px', display: 'inline-block', border: 'none', borderRadius: 0, outline: 'none', boxShadow: 'none' }} />
                   </a>
                 </div>
               </section>
@@ -143,16 +147,24 @@ export default function Guest() {
               <section className="text-center">
                 <h3>The Venue</h3>
                 <p>Addis Ababa, Ethiopia</p>
-                <button style={{
-                  marginTop: '1rem',
-                  background: 'transparent',
-                  border: '1px solid var(--color-crimson)',
-                  color: 'var(--color-crimson)',
-                  padding: '0.5rem 1.5rem',
-                  cursor: 'pointer'
-                }}>
-                  View Map
-                </button>
+                <a
+                  href="https://maps.app.goo.gl/Cp9uRSczVvjivXks8"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    marginTop: '1rem',
+                    background: 'transparent',
+                    border: '1px solid var(--color-crimson)',
+                    color: 'var(--color-crimson)',
+                    padding: '0.5rem 1.5rem',
+                    cursor: 'pointer',
+                    textDecoration: 'none',
+                    display: 'inline-block',
+                    fontFamily: 'var(--font-serif)'
+                  }}
+                >
+                  Golf Club
+                </a>
               </section>
 
               <Form guest={guest} />
