@@ -162,6 +162,10 @@ export const translations: Record<string, Record<Language, string>> = {
     capturedMoments: {
         en: "Captured Moments",
         am: "የማይረሱ ጊዜያት"
+    },
+    location: {
+        en: "Location",
+        am: "ቦታ"
     }
 };
 

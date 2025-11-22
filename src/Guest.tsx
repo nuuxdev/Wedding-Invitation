@@ -129,6 +129,11 @@ export default function Guest() {
                       : new Date(weddingInfo?.weddingDate || Date.now()).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
                     }
                   </p>
+                </div>
+
+                <div style={{ marginTop: '4rem', display: "grid", placeItems: "center" }}>
+                  <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>{t('location')}</h2>
+                  <img src="/location.png" alt="Location" style={{ width: '60px', marginBottom: '1rem' }} />
                   <p style={{ fontSize: '1.2rem', opacity: 0.8 }}>
                     {lang === 'am' ? (weddingInfo?.weddingPlaceAm || weddingInfo?.weddingPlace) : weddingInfo?.weddingPlace}
                   </p>
