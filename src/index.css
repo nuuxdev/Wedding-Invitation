@@ -465,6 +465,15 @@
 
   }
 
+  /* Amharic overrides for hero names to prevent overflow */
+  body.lang-am .hero-content .guest-title h1 {
+    font-size: 2rem;
+  }
+
+  body.lang-am .hero-content .bride-groom-names h1 {
+    font-size: 2.5rem;
+  }
+
   /* Button Pulse Animation */
   @keyframes pulse-scale {
 
