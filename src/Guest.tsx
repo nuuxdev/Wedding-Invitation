@@ -8,6 +8,7 @@ import WishList from "./components/WishList";
 import Gallery from "./components/Gallery";
 import { useLanguage } from "./LanguageContext";
 import LanguageToggle from "./components/LanguageToggle";
+import { formatEthiopianDate } from "./utils/ethiopianDate";
 
 export default function Guest() {
   const [openInvitation, setOpenInvitation] = useState(false);
@@ -42,19 +43,19 @@ export default function Guest() {
         <div className="countdown-grid">
           <div className="time-unit">
             <span className="number">{days}</span>
-            <span className="label">Days</span>
+            <span className="label">{t('days')}</span>
           </div>
           <div className="time-unit">
             <span className="number">{hours}</span>
-            <span className="label">Hours</span>
+            <span className="label">{t('hours')}</span>
           </div>
           <div className="time-unit">
             <span className="number">{minutes}</span>
-            <span className="label">Mins</span>
+            <span className="label">{t('minutes')}</span>
           </div>
           <div className="time-unit">
             <span className="number">{seconds}</span>
-            <span className="label">Secs</span>
+            <span className="label">{t('seconds')}</span>
           </div>
         </div>
       );
@@ -123,8 +124,16 @@ export default function Guest() {
                 </div>
                 <div style={{ marginTop: '2rem' }}>
                   <p style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>
-                    {new Date(weddingInfo?.weddingDate || Date.now()).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                    {lang === 'am'
+                      ? formatEthiopianDate(new Date(weddingInfo?.weddingDate || Date.now()))
+                      : new Date(weddingInfo?.weddingDate || Date.now()).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+                    }
                   </p>
+                </div>
+
+                <div style={{ marginTop: '4rem', display: "grid", placeItems: "center" }}>
+                  <h2 style={{ fontSize: '3rem', marginBottom: '1rem' }}>{t('location')}</h2>
+                  <img src="/location.png" alt="Location" style={{ width: '60px', marginBottom: '1rem' }} />
                   <p style={{ fontSize: '1.2rem', opacity: 0.8 }}>
                     {lang === 'am' ? (weddingInfo?.weddingPlaceAm || weddingInfo?.weddingPlace) : weddingInfo?.weddingPlace}
                   </p>
@@ -141,7 +150,7 @@ export default function Guest() {
               </section>
 
               {/* Couple Section */}
-              <section className="couple-section" style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+              <section className="couple-section" style={{ display: 'flex', justifyContent: 'center', gap: '8rem', flexWrap: 'wrap' }}>
                 <div>
                   <div className="couple-image-wrapper">
                     <img
@@ -168,12 +177,10 @@ export default function Guest() {
                 </div>
               </section>
 
-              {/* Story / Intro */}
+              {/* Quote Section */}
               <section className="text-center" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                <h2>{t('ourStory')}</h2>
-                <p style={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
-                  {/* Hardcoded story for now, could be dynamic */}
-                  {lang === 'am' ? "ፍቅራችን የጀመረው..." : "Our love story began..."}
+                <p style={{ fontSize: '1.2rem', lineHeight: 1.8, fontStyle: 'italic', fontFamily: 'serif', color: 'var(--color-stone)' }}>
+                  "No one has ever seen God: but if we love one another, God lives in us and his love is complete in us. -1 John 4:12"
                 </p>
               </section>
 

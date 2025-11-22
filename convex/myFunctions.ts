@@ -79,3 +79,15 @@ export const myAction = action({
     });
   },
 });
+
+export const updateWeddingLocationAm = mutation({
+  args: {
+    locationAm: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const info = await ctx.db.query("weddingInfo").first();
+    if (info) {
+      await ctx.db.patch(info._id, { weddingPlaceAm: args.locationAm });
+    }
+  },
+});
