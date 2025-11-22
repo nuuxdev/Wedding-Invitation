@@ -150,7 +150,7 @@ export default function Guest() {
               </section>
 
               {/* Couple Section */}
-              <section className="couple-section" style={{ display: 'flex', justifyContent: 'center', gap: '2rem', flexWrap: 'wrap' }}>
+              <section className="couple-section" style={{ display: 'flex', justifyContent: 'center', gap: '8rem', flexWrap: 'wrap' }}>
                 <div>
                   <div className="couple-image-wrapper">
                     <img
@@ -177,12 +177,10 @@ export default function Guest() {
                 </div>
               </section>
 
-              {/* Story / Intro */}
+              {/* Quote Section */}
               <section className="text-center" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                <h2>{t('ourStory')}</h2>
-                <p style={{ fontSize: '1.1rem', lineHeight: 1.8 }}>
-                  {/* Hardcoded story for now, could be dynamic */}
-                  {lang === 'am' ? "ፍቅራችን የጀመረው..." : "Our love story began..."}
+                <p style={{ fontSize: '1.2rem', lineHeight: 1.8, fontStyle: 'italic', fontFamily: 'serif', color: 'var(--color-stone)' }}>
+                  "No one has ever seen God: but if we love one another, God lives in us and his love is complete in us. -1 John 4:12"
                 </p>
               </section>
 
