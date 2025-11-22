@@ -8,6 +8,7 @@ import WishList from "./components/WishList";
 import Gallery from "./components/Gallery";
 import { useLanguage } from "./LanguageContext";
 import LanguageToggle from "./components/LanguageToggle";
+import { formatEthiopianDate } from "./utils/ethiopianDate";
 
 export default function Guest() {
   const [openInvitation, setOpenInvitation] = useState(false);
@@ -42,19 +43,19 @@ export default function Guest() {
         <div className="countdown-grid">
           <div className="time-unit">
             <span className="number">{days}</span>
-            <span className="label">Days</span>
+            <span className="label">{t('days')}</span>
           </div>
           <div className="time-unit">
             <span className="number">{hours}</span>
-            <span className="label">Hours</span>
+            <span className="label">{t('hours')}</span>
           </div>
           <div className="time-unit">
             <span className="number">{minutes}</span>
-            <span className="label">Mins</span>
+            <span className="label">{t('minutes')}</span>
           </div>
           <div className="time-unit">
             <span className="number">{seconds}</span>
-            <span className="label">Secs</span>
+            <span className="label">{t('seconds')}</span>
           </div>
         </div>
       );
@@ -123,7 +124,10 @@ export default function Guest() {
                 </div>
                 <div style={{ marginTop: '2rem' }}>
                   <p style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>
-                    {new Date(weddingInfo?.weddingDate || Date.now()).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                    {lang === 'am'
+                      ? formatEthiopianDate(new Date(weddingInfo?.weddingDate || Date.now()))
+                      : new Date(weddingInfo?.weddingDate || Date.now()).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+                    }
                   </p>
                   <p style={{ fontSize: '1.2rem', opacity: 0.8 }}>
                     {lang === 'am' ? (weddingInfo?.weddingPlaceAm || weddingInfo?.weddingPlace) : weddingInfo?.weddingPlace}
