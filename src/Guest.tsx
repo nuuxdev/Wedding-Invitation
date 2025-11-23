@@ -184,7 +184,7 @@ export default function Guest() {
                 </p>
               </section>
 
-              <Form guest={guest} />
+              <Form guest={guest} weddingInfo={weddingInfo} />
               <WishList />
               <Gallery />
 

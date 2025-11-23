@@ -29,6 +29,7 @@ export default defineSchema({
     guestId: v.id("guest"),
     willAttend: VwillAttend,
     checkedIn: v.optional(v.boolean()),
+    qrCodeStorageId: v.optional(v.id("_storage")),
   })
     .index("by_guestId", ["guestId"])
     .index("by_willAttend", ["willAttend"]),
