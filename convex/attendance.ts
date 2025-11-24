@@ -168,6 +168,53 @@ function parseToken(token: string) {
   return { guestId, signature };
 }
 
+// Get by Guest ID
+export const getByGuestId = query({
+  args: { guestId: v.id("guest") },
+  handler: async (ctx, args) => {
+    const attendance = await ctx.db
+      .query("attendance")
+      .withIndex("by_guestId", (q) => q.eq("guestId", args.guestId))
+      .unique();
+
+    if (!attendance) return null;
+
+    let qrCodeUrl = null;
+    if (attendance.qrCodeStorageId) {
+      qrCodeUrl = await ctx.storage.getUrl(attendance.qrCodeStorageId);
+    }
+
+    return { ...attendance, qrCodeUrl };
+  },
+});
+
+// Generate Upload URL
+export const generateUploadUrl = mutation(async (ctx) => {
+  return await ctx.storage.generateUploadUrl();
+});
+
+// Save QR Code
+export const saveQrCode = mutation({
+  args: {
+    guestId: v.id("guest"),
+    storageId: v.id("_storage"),
+  },
+  handler: async (ctx, args) => {
+    const attendance = await ctx.db
+      .query("attendance")
+      .withIndex("by_guestId", (q) => q.eq("guestId", args.guestId))
+      .unique();
+
+    if (!attendance) {
+      throw new Error("Attendance record not found");
+    }
+
+    await ctx.db.patch(attendance._id, {
+      qrCodeStorageId: args.storageId,
+    });
+  },
+});
+
 //qrcode
 
 async function generateSignedToken(guestId: string) {
