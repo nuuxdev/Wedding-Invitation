@@ -46,13 +46,12 @@ export function toEthiopian(date: Date): { year: number; month: number; day: num
     // Set to noon to avoid timezone issues
     inputDate.setHours(12, 0, 0, 0);
 
-    // Anchor: Sep 11, 2023 was Meskerem 1, 2016.
+    // Anchor: Sep 11, 2023 was Puagme 6, 2015.
     const anchorGregorian = new Date(2023, 8, 11); // Sep 11, 2023
-    const anchorEthiopian = { year: 2016, month: 0, day: 1 }; // Meskerem 1, 2016
+    const anchorEthiopian = { year: 2015, month: 12, day: 6 }; // Puagme 6, 2015
 
     const diffTime = inputDate.getTime() - anchorGregorian.getTime();
-    // Add 1 day to correct for the "one day behind" issue reported
-    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
     // Now add days to Ethiopian date
     // Ethiopian months are 30 days each, plus Pagume (5 or 6 days)
