@@ -60,7 +60,7 @@ export default function BackgroundMusic() {
 
     return (
         <div style={{
-            position: 'fixed',
+            position: 'absolute',
             top: '20px',
             left: '20px',
             zIndex: 1000,
