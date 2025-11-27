@@ -65,7 +65,6 @@ export default function Guest() {
 
   return (
     <main>
-      <BackgroundMusic />
       {!guest || !weddingInfo ? (
         <div className="loading">Loading...</div>
       ) : (
@@ -75,6 +74,7 @@ export default function Guest() {
             <div className={`visual-effects ${openInvitation ? "open" : ""}`}></div>
             <div className={`flower-decoration ${openInvitation ? "open" : ""}`}></div>
             <LanguageToggle />
+            <BackgroundMusic />
             <div className={`hero-content ${openInvitation ? "open" : ""}`}>
               <>
 
