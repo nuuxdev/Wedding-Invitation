@@ -9,6 +9,7 @@ import Gallery from "./components/Gallery";
 import { useLanguage } from "./LanguageContext";
 import LanguageToggle from "./components/LanguageToggle";
 import { formatEthiopianDate } from "./utils/ethiopianDate";
+import BackgroundMusic from "./components/BackgroundMusic";
 
 export default function Guest() {
   const [openInvitation, setOpenInvitation] = useState(false);
@@ -64,6 +65,7 @@ export default function Guest() {
 
   return (
     <main>
+      <BackgroundMusic />
       {!guest || !weddingInfo ? (
         <div className="loading">Loading...</div>
       ) : (
