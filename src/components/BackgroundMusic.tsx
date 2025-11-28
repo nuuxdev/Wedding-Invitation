@@ -1,28 +1,29 @@
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 
-export default function BackgroundMusic() {
+export interface BackgroundMusicHandle {
+    playWithFadeIn: () => void;
+}
+
+const BackgroundMusic = forwardRef<BackgroundMusicHandle>((_, ref) => {
     const audioRef = useRef<HTMLAudioElement>(null);
-    const [isPlaying, setIsPlaying] = useState(true);
+    const [isPlaying, setIsPlaying] = useState(false);
 
-    useEffect(() => {
-        const audio = audioRef.current;
-        if (!audio) return;
+    useImperativeHandle(ref, () => ({
+        playWithFadeIn: () => {
+            const audio = audioRef.current;
+            if (!audio) return;
 
-        const fadeInDuration = 5000; // 5 seconds
-        const intervalTime = 50; // Update every 50ms
-        const steps = fadeInDuration / intervalTime;
-        const volumeStep = 1 / steps;
+            const fadeInDuration = 5000; // 5 seconds
+            const intervalTime = 50; // Update every 50ms
+            const steps = fadeInDuration / intervalTime;
+            const volumeStep = 1 / steps;
 
-        let currentVolume = 0;
-        let fadeInterval: NodeJS.Timeout;
+            let currentVolume = 0;
+            audio.volume = 0;
 
-        const playAudio = async () => {
-            try {
-                audio.volume = 0;
-                await audio.play();
+            audio.play().then(() => {
                 setIsPlaying(true);
-
-                fadeInterval = setInterval(() => {
+                const fadeInterval = setInterval(() => {
                     currentVolume += volumeStep;
                     if (currentVolume >= 1) {
                         currentVolume = 1;
@@ -30,18 +31,12 @@ export default function BackgroundMusic() {
                     }
                     audio.volume = currentVolume;
                 }, intervalTime);
-            } catch (error) {
-                console.log("Autoplay blocked:", error);
+            }).catch((error) => {
+                console.log("Play blocked:", error);
                 setIsPlaying(false);
-            }
-        };
-
-        playAudio();
-
-        return () => {
-            clearInterval(fadeInterval);
-        };
-    }, []);
+            });
+        }
+    }));
 
     const togglePlay = () => {
         const audio = audioRef.current;
@@ -113,4 +108,6 @@ export default function BackgroundMusic() {
             </button>
         </div>
     );
-}
+});
+
+export default BackgroundMusic;
