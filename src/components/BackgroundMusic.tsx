@@ -65,7 +65,7 @@ export default function BackgroundMusic() {
             left: '20px',
             zIndex: 1000,
         }}>
-            <audio ref={audioRef} src="/ukulele_bg.m4a" loop />
+            <audio ref={audioRef} src="/ukulele_bg.m4a" loop autoPlay />
             <button
                 onClick={togglePlay}
                 className="button-outline"
