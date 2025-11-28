@@ -1,7 +1,7 @@
 import { useQuery } from "convex/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../convex/_generated/api";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Countdown from "react-countdown";
 import Form from "./components/Form";
 import WishList from "./components/WishList";
@@ -9,10 +9,11 @@ import Gallery from "./components/Gallery";
 import { useLanguage } from "./LanguageContext";
 import LanguageToggle from "./components/LanguageToggle";
 import { formatEthiopianDate } from "./utils/ethiopianDate";
-import BackgroundMusic from "./components/BackgroundMusic";
+import BackgroundMusic, { BackgroundMusicHandle } from "./components/BackgroundMusic";
 
 export default function Guest() {
   const [openInvitation, setOpenInvitation] = useState(false);
+  const backgroundMusicRef = useRef<BackgroundMusicHandle>(null);
   const guestId = useParams().id;
   const navigate = useNavigate();
   const guest = useQuery(api.guest.findOne, guestId ? { id: guestId } : "skip");
@@ -74,7 +75,7 @@ export default function Guest() {
             <div className={`visual-effects ${openInvitation ? "open" : ""}`}></div>
             <div className={`flower-decoration ${openInvitation ? "open" : ""}`}></div>
             <LanguageToggle />
-            <BackgroundMusic />
+            <BackgroundMusic ref={backgroundMusicRef} />
             <div className={`hero-content ${openInvitation ? "open" : ""}`}>
               <>
 
@@ -103,7 +104,10 @@ export default function Guest() {
               </>
 
               {!openInvitation && (
-                <button onClick={() => setOpenInvitation(true)}>
+                <button onClick={() => {
+                  setOpenInvitation(true);
+                  backgroundMusicRef.current?.playWithFadeIn();
+                }}>
                   {t('openInvitation')}
                 </button>
               )}
