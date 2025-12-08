@@ -2,6 +2,7 @@ import {
   Authenticated,
   Unauthenticated,
   useConvexAuth,
+  useQuery,
 } from "convex/react";
 import { useAuthActions } from "@convex-dev/auth/react";
 import { useState } from "react";
@@ -10,19 +11,19 @@ import { GuestListTab } from "./views/GuestListTab";
 import { AttendanceTab } from "./views/AttendanceTab";
 import { WishesTab } from "./views/WishesTab";
 import { ScannerSection } from "./views/ScannerSection";
-import LanguageToggle from "./components/LanguageToggle";
+import { api } from "../convex/_generated/api";
 
 export default function Admin() {
   return (
     <>
-      <LanguageToggle />
       <Authenticated>
         <AdminApp />
       </Authenticated>
       <Unauthenticated>
-        <div className="p-4">
-          <header className="mb-4">
-            <h1 className="text-2xl font-bold">Wedding Invitation Admin</h1>
+        <div className="admin-login">
+          <header className="admin-login-header">
+            <h1>Wedding Invitation</h1>
+            <h2>Admin</h2>
           </header>
           <SignInForm />
         </div>
@@ -34,73 +35,56 @@ export default function Admin() {
 function AdminApp() {
   const [activeTab, setActiveTab] = useState<"home" | "guests" | "attendance" | "wishes">("home");
   const [showScanner, setShowScanner] = useState(false);
+  const userRole = useQuery(api.roles.getCurrentUserRole);
+
+  // Loading state for role
+  if (userRole === undefined) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  const isAdmin = userRole === "admin";
+
+  const getTitle = () => {
+    switch (activeTab) {
+      case "home": return "Guest Statistics";
+      case "guests": return "Guest List";
+      case "attendance": return "Attendance List";
+      case "wishes": return "Guest Wishes";
+      default: return "Admin Dashboard";
+    }
+  };
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", height: "100vh", position: "relative" }}>
-      <header style={{ padding: "15px", borderBottom: "1px solid #eee", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-        <h1 style={{ margin: 0, fontSize: "1.2rem" }}>Admin Dashboard</h1>
+    <div className="admin-container">
+      <header className="admin-header">
+        <h1 className="admin-title" style={{ fontSize: '1.5rem' }}>{getTitle()}</h1>
         <SignOutButton />
       </header>
 
-      <main style={{ flex: 1, overflowY: "auto", padding: "15px", paddingBottom: "80px" }}>
+      <main className="admin-main">
         {activeTab === "home" && <HomeTab />}
-        {activeTab === "guests" && <GuestListTab />}
+        {activeTab === "guests" && <GuestListTab canInvite={isAdmin} />}
         {activeTab === "attendance" && <AttendanceTab />}
         {activeTab === "wishes" && <WishesTab />}
       </main>
 
-      {/* Floating Action Button for Scanner */}
-      <button
-        onClick={() => setShowScanner(true)}
-        style={{
-          position: "fixed",
-          bottom: "80px",
-          right: "20px",
-          width: "60px",
-          height: "60px",
-          borderRadius: "50%",
-          backgroundColor: "#4CAF50",
-          color: "white",
-          border: "none",
-          boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          cursor: "pointer",
-          zIndex: 1000
-        }}
-      >
-        <ScanIcon />
-      </button>
+      {/* Floating Action Button for Scanner - Admin only */}
+      {isAdmin && (
+        <button
+          onClick={() => setShowScanner(true)}
+          className="scanner-fab"
+        >
+          <ScanIcon />
+        </button>
+      )}
 
       {/* Scanner Modal */}
       {showScanner && (
-        <div style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundColor: "rgba(0,0,0,0.8)",
-          zIndex: 2000,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "20px"
-        }}>
-          <div style={{ backgroundColor: "white", padding: "20px", borderRadius: "10px", width: "100%", maxWidth: "500px", position: "relative" }}>
+        <div className="scanner-modal-overlay">
+          <div className="scanner-modal">
             <button
               onClick={() => setShowScanner(false)}
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                background: "none",
-                border: "none",
-                fontSize: "1.5rem",
-                cursor: "pointer"
-              }}
+              className="scanner-modal-close"
             >
               ×
             </button>
@@ -109,16 +93,7 @@ function AdminApp() {
         </div>
       )}
 
-      <nav style={{
-        display: "flex",
-        justifyContent: "space-around",
-        padding: "10px 0",
-        borderTop: "1px solid #eee",
-        backgroundColor: "#fff",
-        position: "sticky",
-        bottom: 0,
-        zIndex: 900
-      }}>
+      <nav className="admin-nav">
         <NavButton
           active={activeTab === "home"}
           onClick={() => setActiveTab("home")}
@@ -152,22 +127,14 @@ function NavButton({ active, onClick, icon, label }: { active: boolean; onClick:
   return (
     <button
       onClick={onClick}
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        background: "none",
-        border: "none",
-        color: active ? "#4CAF50" : "#888",
-        cursor: "pointer",
-        fontSize: "0.8rem"
-      }}
+      className={`admin-nav-button ${active ? "active" : ""}`}
     >
-      <div style={{ marginBottom: "4px" }}>{icon}</div>
+      <div className="admin-nav-icon">{icon}</div>
       {label}
     </button>
   );
 }
+
 // Icons
 const HomeIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
@@ -193,7 +160,7 @@ function SignOutButton() {
       {isAuthenticated && (
         <button
           onClick={() => void signOut()}
-          style={{ fontSize: "0.8rem" }}
+          className="button-outline"
         >
           Sign out
         </button>
@@ -207,41 +174,44 @@ function SignInForm() {
   const [flow] = useState<"signIn" | "signUp">("signIn");
   const [error, setError] = useState<string | null>(null);
   return (
-    <div>
-      <p>Log in to your account</p>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          const formData = new FormData(e.target as HTMLFormElement);
-          formData.set("flow", flow);
-          void signIn("password", formData).catch((error) => {
-            setError(error.message);
-          });
-        }}
-      >
+    <form
+      className="admin-login-form"
+      onSubmit={(e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target as HTMLFormElement);
+        formData.set("flow", flow);
+        void signIn("password", formData).catch((error) => {
+          setError(error.message);
+        });
+      }}
+    >
+      <div className="form-group">
+        <label htmlFor="email">Email</label>
         <input
           type="email"
+          id="email"
           name="email"
           placeholder="Email"
         />
+      </div>
+      <div className="form-group">
+        <label htmlFor="password">Password</label>
         <input
           type="password"
+          id="password"
           name="password"
           placeholder="Password"
         />
-        <button
-          type="submit"
-        >
-          {flow === "signIn" ? "Sign in" : "Sign up"}
-        </button>
-        {error && (
-          <div>
-            <p>
-              Error signing in: {error}
-            </p>
-          </div>
-        )}
-      </form>
-    </div>
+      </div>
+      <button type="submit">
+        {flow === "signIn" ? "Sign in" : "Sign up"}
+      </button>
+      {error && (
+        <div className="error-message">
+          <p>Error signing in: {error}</p>
+        </div>
+      )}
+    </form>
   );
 }
+

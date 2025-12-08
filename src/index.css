@@ -914,4 +914,210 @@
       color: var(--color-white);
     }
   }
+
+  /* Admin Page Styles */
+  .admin-login {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: var(--space-lg);
+  }
+
+  .admin-login-header {
+    text-align: center;
+    margin-bottom: var(--space-lg);
+  }
+
+  .admin-login-header h1 {
+    font-size: clamp(2.5rem, 8vw, 4rem);
+  }
+
+  .admin-login-header h2 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    color: var(--color-gold);
+  }
+
+  .admin-login-form {
+    background: var(--color-surface);
+    padding: var(--space-xl) var(--space-md);
+    border: 1px solid var(--color-crimson-dark);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+  }
+
+  .admin-login-form::before {
+    content: "";
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    right: 4px;
+    bottom: 4px;
+    border: 1px solid var(--color-crimson-dark);
+    border-radius: 8px;
+    pointer-events: none;
+  }
+
+  .admin-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    /* Use svh for better mobile support */
+    position: relative;
+    background-color: var(--color-champagne);
+  }
+
+  .admin-header {
+    padding: var(--space-sm);
+    border-bottom: 1px solid var(--color-crimson-dark);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--color-surface);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+
+  .admin-title {
+    margin: 0;
+    font-size: 2rem;
+    font-family: var(--font-serif);
+    color: var(--color-gold);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .admin-main {
+    flex: 1;
+    padding: var(--space-sm);
+    padding-bottom: 80px;
+    /* Remove overflow-y: auto to allow page scroll */
+  }
+
+  .admin-nav {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid var(--color-crimson-dark);
+    background: var(--color-surface);
+    position: sticky;
+    bottom: 0;
+    z-index: 900;
+  }
+
+  .admin-nav-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: none;
+    border: none;
+    color: var(--color-stone);
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: color 0.3s ease;
+  }
+
+  .admin-nav-button.active {
+    color: var(--color-crimson);
+  }
+
+  .admin-nav-icon {
+    margin-bottom: 4px;
+  }
+
+  .scanner-fab {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--color-crimson);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 1000;
+    transition: transform 0.2s ease;
+  }
+
+  .scanner-fab:hover {
+    transform: scale(1.05);
+  }
+
+  .scanner-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .scanner-modal {
+    background: var(--color-surface);
+    padding: var(--space-md);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    border: 1px solid var(--color-crimson-dark);
+  }
+
+  .scanner-modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--color-charcoal);
+  }
+
+  .error-message {
+    color: var(--color-crimson);
+    margin-top: var(--space-sm);
+    text-align: center;
+  }
+
+  /* Stat Card Styling for Admin */
+  .stat-card {
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-crimson-dark);
+    text-align: center;
+    background-color: var(--color-surface);
+  }
+
+  .stat-card-value {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+
+  .stat-card-label {
+    font-size: 0.9rem;
+    color: var(--color-stone);
+  }
+
+  /* Guest Card Styling */
+  .guest-card {
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-crimson-dark);
+    background-color: var(--color-surface);
+  }
 }

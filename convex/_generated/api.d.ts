@@ -13,7 +13,9 @@ import type * as auth from "../auth.js";
 import type * as guest from "../guest.js";
 import type * as http from "../http.js";
 import type * as myFunctions from "../myFunctions.js";
+import type * as roles from "../roles.js";
 import type * as stats from "../stats.js";
+import type * as users from "../users.js";
 import type * as weddingInfo from "../weddingInfo.js";
 import type * as wish from "../wish.js";
 
@@ -29,7 +31,9 @@ declare const fullApi: ApiFromModules<{
   guest: typeof guest;
   http: typeof http;
   myFunctions: typeof myFunctions;
+  roles: typeof roles;
   stats: typeof stats;
+  users: typeof users;
   weddingInfo: typeof weddingInfo;
   wish: typeof wish;
 }>;
