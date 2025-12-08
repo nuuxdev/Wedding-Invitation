@@ -29,56 +29,53 @@ export function ScannerSection() {
     }, [verifyGuest]);
 
     return (
-        <div
-            style={{ marginBottom: "20px", border: "1px solid #ccc", padding: "10px" }}
-        >
-            <h2>Scan QR Code</h2>
+        <div style={{ marginBottom: "20px" }}>
+            <h2 style={{ fontSize: '1.5rem', marginBottom: 'var(--space-sm)', color: 'var(--color-gold)' }}>Scan QR Code</h2>
             {!scanResult ? (
                 <QRScanner onScan={handleScan} />
             ) : (
                 <div
+                    className="guest-card"
                     style={{
                         marginTop: "10px",
-                        padding: "10px",
-                        border: "1px solid",
-                        borderColor: scanResult.success ? "green" : "red",
+                        borderColor: scanResult.success ? "var(--color-crimson)" : "var(--color-stone)",
                     }}
                 >
                     {scanResult.success ? (
                         <>
-                            <h3 style={{ color: "green" }}>Valid Guest!</h3>
-                            <p>
+                            <h3 style={{ color: "var(--color-crimson)" }}>Valid Guest!</h3>
+                            <p style={{ color: "var(--color-charcoal)" }}>
                                 <strong>Name:</strong> {scanResult.guest?.firstName}{" "}
                                 {scanResult.guest?.lastName}
                             </p>
-                            <p>
+                            <p style={{ color: "var(--color-charcoal)" }}>
                                 <strong>Phone:</strong> {scanResult.guest?.phoneNumber}
                             </p>
-                            <p>
+                            <p style={{ color: "var(--color-charcoal)" }}>
                                 <strong>RSVP:</strong> {scanResult.attendance?.willAttend}
                             </p>
                             <button onClick={() => setScanResult(null)}>Scan Another</button>
                         </>
                     ) : scanResult.guest ? (
                         <>
-                            <h3 style={{ color: "orange" }}>Guest Already Checked In!</h3>
-                            <p>
+                            <h3 style={{ color: "var(--color-gold)" }}>Guest Already Checked In!</h3>
+                            <p style={{ color: "var(--color-charcoal)" }}>
                                 <strong>Name:</strong> {scanResult.guest?.firstName}{" "}
                                 {scanResult.guest?.lastName}
                             </p>
-                            <p>
+                            <p style={{ color: "var(--color-charcoal)" }}>
                                 <strong>Phone:</strong> {scanResult.guest?.phoneNumber}
                             </p>
-                            <p>
+                            <p style={{ color: "var(--color-charcoal)" }}>
                                 <strong>RSVP:</strong> {scanResult.attendance?.willAttend}
                             </p>
-                            <p style={{ color: "red" }}>{scanResult.message}</p>
+                            <p style={{ color: "var(--color-stone)" }}>{scanResult.message}</p>
                             <button onClick={() => setScanResult(null)}>Scan Another</button>
                         </>
                     ) : (
                         <>
-                            <h3 style={{ color: "red" }}>Invalid Guest!</h3>
-                            <p>{scanResult.message}</p>
+                            <h3 style={{ color: "var(--color-stone)" }}>Invalid Guest!</h3>
+                            <p style={{ color: "var(--color-charcoal)" }}>{scanResult.message}</p>
                             <button onClick={() => setScanResult(null)}>Try Again</button>
                         </>
                     )}
