@@ -1,22 +1,22 @@
 import { createAccount, getAuthUserId } from "@convex-dev/auth/server";
 import { ConvexError, v } from "convex/values";
-import { action } from "./_generated/server";
+import { internalAction } from "./_generated/server";
 import { api } from "./_generated/api";
 
-export const adminCreateUser = action({
+export const adminCreateUser = internalAction({
     args: {
         email: v.string(),
         password: v.string(),
         role: v.union(v.literal("admin"), v.literal("host")),
     },
     handler: async (ctx, args) => {
-        const authUserId = await getAuthUserId(ctx);
-        if (!authUserId) throw new ConvexError("Not authenticated");
+        // const authUserId = await getAuthUserId(ctx);
+        // if (!authUserId) throw new ConvexError("Not authenticated");
 
-        const role = await ctx.runQuery(api.roles.getCurrentUserRole);
-        if (role !== "admin") {
-            throw new ConvexError("Not authorized");
-        }
+        // const role = await ctx.runQuery(api.roles.getCurrentUserRole);
+        // if (role !== "admin") {
+        //     throw new ConvexError("Not authorized");
+        // }
 
         const providerId = "password";
         const account = {
