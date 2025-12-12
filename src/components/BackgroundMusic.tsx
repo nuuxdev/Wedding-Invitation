@@ -13,8 +13,8 @@ const BackgroundMusic = forwardRef<BackgroundMusicHandle>((_, ref) => {
             const audio = audioRef.current;
             if (!audio) return;
 
-            const fadeInDuration = 5000; // 5 seconds
-            const intervalTime = 50; // Update every 50ms
+            const fadeInDuration = 1000;
+            const intervalTime = 50;
             const steps = fadeInDuration / intervalTime;
             const volumeStep = 1 / steps;
 
@@ -60,7 +60,7 @@ const BackgroundMusic = forwardRef<BackgroundMusicHandle>((_, ref) => {
             left: '20px',
             zIndex: 1000,
         }}>
-            <audio ref={audioRef} src="/ukulele_bg.m4a" loop autoPlay />
+            <audio ref={audioRef} src="/wedding-bg-audio.mp3" loop />
             <button
                 onClick={togglePlay}
                 className="button-outline"
