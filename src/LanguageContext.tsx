@@ -172,7 +172,7 @@ export const translations: Record<string, Record<Language, string>> = {
 export function LanguageProvider({ children }: { children: ReactNode }) {
     const [lang, setLang] = useState<Language>(() => {
         const saved = localStorage.getItem('app-lang');
-        return (saved === 'en' || saved === 'am') ? saved : 'en';
+        return (saved === 'en' || saved === 'am') ? saved : 'am';
     });
 
     useEffect(() => {
