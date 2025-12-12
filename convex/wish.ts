@@ -3,9 +3,31 @@ import { mutation, MutationCtx, query } from "./_generated/server";
 import { Id } from "./_generated/dataModel";
 
 export const findAll = query({
-  args: {},
-  handler(ctx) {
-    const wishList = ctx.db.query("wish").collect();
+  args: {
+    count: v.optional(v.number()),
+    seed: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const wishList = await ctx.db.query("wish").collect();
+
+    if (args.count) {
+      // Seeded shuffle
+      const seed = args.seed || Date.now();
+      const random = (seed: number) => {
+        let x = Math.sin(seed++) * 10000;
+        return x - Math.floor(x);
+      };
+
+      let currentSeed = seed;
+      // Shuffle array
+      for (let i = wishList.length - 1; i > 0; i--) {
+        const j = Math.floor(random(currentSeed) * (i + 1));
+        currentSeed++; // Increment seed for next random number
+        [wishList[i], wishList[j]] = [wishList[j], wishList[i]];
+      }
+      return wishList.slice(0, args.count);
+    }
+
     return wishList;
   },
 });

@@ -191,7 +191,7 @@ export default function Guest() {
               </section>
 
               <Form guest={guest} weddingInfo={weddingInfo} />
-              <WishList />
+              <WishList count={6} />
               <Gallery />
 
               {/* Thank You Section */}

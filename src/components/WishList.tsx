@@ -2,8 +2,12 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useLanguage } from "../LanguageContext";
 
-export default function WishList() {
-  const wishes = useQuery(api.wish.findAll);
+import { useState } from "react";
+
+export default function WishList({ count }: { count?: number }) {
+  const [seed] = useState(Math.random());
+
+  const wishes = useQuery(api.wish.findAll, { count, seed });
   const { t } = useLanguage();
 
   if (wishes === undefined) {

@@ -2,7 +2,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 
 export function WishesTab() {
-    const wishList = useQuery(api.wish.findAll);
+    const wishList = useQuery(api.wish.findAll, {});
 
     if (wishList === undefined) return <div className="loading">Loading wishes...</div>;
 
