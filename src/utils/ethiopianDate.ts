@@ -90,3 +90,47 @@ export function formatEthiopianDate(date: Date | string | number): string {
     const weekday = ETHIOPIAN_WEEKDAYS[d.getDay()];
     return `${weekday}, ${ETHIOPIAN_MONTHS_AM[month]} ${day}, ${year}`;
 }
+export function formatEthiopianTime(date: Date): string {
+    const d = new Date(date);
+    let hours = d.getHours();
+    const minutes = d.getMinutes();
+
+    // Ethiopian time calculation: (Hours + 6) % 12. If 0, return 12.
+    let ethiopianHours = (hours + 6) % 12;
+    if (ethiopianHours === 0) ethiopianHours = 12;
+
+    const minutesStr = minutes.toString().padStart(2, '0');
+
+    // Determine Amharic period
+    // 6:00 AM - 11:59 AM: Morning (ጠዋት)
+    // 12:00 PM - 5:59 PM: Afternoon (ከሰዓት)
+    // 6:00 PM - 8:59 PM: Evening (ማታ)
+    // 9:00 PM - 5:59 AM: Night (ሌሊት)
+
+    let period = "";
+    if (hours >= 6 && hours < 12) {
+        period = "ጠዋት";
+    } else if (hours >= 12 && hours < 18) {
+        period = "ከሰዓት";
+    } else if (hours >= 18 && hours < 21) {
+        period = "ማታ";
+    } else {
+        period = "ሌሊት";
+    }
+
+    return `${ethiopianHours}:${minutesStr}(${period})`;
+}
+
+export function getTimePeriod(date: Date): string {
+    const hours = date.getHours();
+
+    if (hours >= 6 && hours < 12) {
+        return "(Morning)";
+    } else if (hours >= 12 && hours < 18) {
+        return "(Afternoon)";
+    } else if (hours >= 18 && hours < 21) {
+        return "(Evening)";
+    } else {
+        return "(Night)";
+    }
+}

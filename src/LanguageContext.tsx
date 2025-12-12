@@ -28,11 +28,11 @@ export const translations: Record<string, Record<Language, string>> = {
         am: "ሰዓታት"
     },
     minutes: {
-        en: "Minutes",
+        en: "Mins",
         am: "ደቂቃዎች"
     },
     seconds: {
-        en: "Seconds",
+        en: "Secs",
         am: "ሰከንዶች"
     },
     viewMap: {
@@ -73,11 +73,11 @@ export const translations: Record<string, Record<Language, string>> = {
     },
     wishList: {
         en: "Wish List",
-        am: "ምኞት"
+        am: "የምኞት መልዕክቶች"
     },
     leaveMessage: {
         en: "Leave a message for the couple",
-        am: "ለሙሽሮቹ መልእክት ያስቀምጡ"
+        am: "ለሙሽሮቹ የምኞት መልእክት ያስቀምጡ"
     },
     yourName: {
         en: "Your Name",

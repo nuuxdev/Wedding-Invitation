@@ -998,6 +998,20 @@
     /* Remove overflow-y: auto to allow page scroll */
   }
 
+  @media (max-width: 600px) {
+    .countdown-grid {
+      gap: 0.5rem;
+    }
+
+    .time-unit .number {
+      font-size: 2rem;
+    }
+
+    .time-unit .label {
+      font-size: 0.8rem;
+    }
+  }
+
   .admin-nav {
     display: flex;
     justify-content: space-around;

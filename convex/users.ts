@@ -1,7 +1,6 @@
-import { createAccount, getAuthUserId } from "@convex-dev/auth/server";
-import { ConvexError, v } from "convex/values";
+import { createAccount } from "@convex-dev/auth/server";
+import { v } from "convex/values";
 import { internalAction } from "./_generated/server";
-import { api } from "./_generated/api";
 
 export const adminCreateUser = internalAction({
     args: {

@@ -8,7 +8,7 @@ import WishList from "./components/WishList";
 import Gallery from "./components/Gallery";
 import { useLanguage } from "./LanguageContext";
 import LanguageToggle from "./components/LanguageToggle";
-import { formatEthiopianDate } from "./utils/ethiopianDate";
+import { formatEthiopianDate, formatEthiopianTime, getTimePeriod } from "./utils/ethiopianDate";
 import BackgroundMusic, { BackgroundMusicHandle } from "./components/BackgroundMusic";
 
 export default function Guest() {
@@ -131,8 +131,8 @@ export default function Guest() {
                 <div style={{ marginTop: '2rem' }}>
                   <p style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>
                     {lang === 'am'
-                      ? formatEthiopianDate(new Date(weddingInfo?.weddingDate || Date.now()))
-                      : new Date(weddingInfo?.weddingDate || Date.now()).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })
+                      ? `${formatEthiopianDate(new Date(weddingInfo?.weddingDate || Date.now()))}, ${formatEthiopianTime(new Date(weddingInfo?.weddingDate || Date.now()))}`
+                      : `${new Date(weddingInfo?.weddingDate || Date.now()).toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}, ${new Date(weddingInfo?.weddingDate || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}${getTimePeriod(new Date(weddingInfo?.weddingDate || Date.now()))}`
                     }
                   </p>
                 </div>
