@@ -27,11 +27,19 @@ export function AttendanceTab() {
                             <div>
                                 <h3 style={{ margin: "0 0 5px 0", fontSize: "1.3rem", color: "var(--color-charcoal)", fontFamily: "var(--font-serif)" }}>{attendance.fullName}</h3>
                                 <div style={{ fontSize: "0.8rem", color: "var(--color-stone)" }}>
-                                    Will Attend: <span style={{ color: willAttendColors[attendance.willAttend], fontWeight: "bold" }}>{attendance.willAttend.toUpperCase()}</span>
+                                    {attendance.plus > 0 && (
+                                        <span style={{ color: "var(--color-charcoal)", fontWeight: "bold" }}>
+                                            Plus: {attendance.plus}
+                                        </span>
+                                    )}
                                 </div>
                                 {attendance.checkedIn && (
                                     <div style={{ fontSize: "0.8rem", color: "var(--color-crimson)", marginTop: "5px" }}>✓ Checked In</div>
                                 )}
+                            </div>
+                            <div style={{ textAlign: "right" }}>
+                                <div style={{ fontSize: "0.8rem", color: "var(--color-stone)" }}>Will Attend</div>
+                                <span style={{ color: willAttendColors[attendance.willAttend], fontWeight: "bold" }}>{attendance.willAttend.toUpperCase()}</span>
                             </div>
                         </div>
                     ))

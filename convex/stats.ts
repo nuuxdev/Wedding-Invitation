@@ -7,7 +7,11 @@ import { VwillAttend } from "./attendance";
 
 export type TstatsResponse = {
   guestCount: number;
+  guestPlusCount: number;
   attendanceCounts: Record<Infer<typeof VwillAttend>, number> & {
+    total: number;
+  };
+  attendancePlusCounts: Record<Infer<typeof VwillAttend>, number> & {
     total: number;
   };
 };
@@ -20,22 +24,50 @@ export const guestStats = query({
     const userId = await getAuthUserId(ctx);
     if (!userId) return;
 
-    const guestCount = (await ctx.db.query("guest").collect()).length;
+    const guestMap = new Map<string, number>();
+    let guestPlusCount = 0;
+    const guests = await ctx.db.query("guest").collect();
+    guests.forEach((g) => {
+      const plus = g.plus || 0;
+      guestMap.set(g._id, plus);
+      guestPlusCount += plus;
+    });
+
+    const guestCount = guests.length;
     const attendanceList = await ctx.db.query("attendance").collect();
     const attendanceCount = attendanceList.length;
+
     const initialVal: Record<Infer<typeof VwillAttend>, number> = {
       yes: 0,
       no: 0,
       maybe: 0,
     };
+
+    const initialPlusVal: Record<Infer<typeof VwillAttend>, number> = {
+      yes: 0,
+      no: 0,
+      maybe: 0,
+    };
+
+    let totalAttendancePluses = 0;
+
     const willAttendCounts = attendanceList.reduce((acc, attendance) => {
       acc[attendance.willAttend]++;
       return acc;
-    }, initialVal);
+    }, { ...initialVal });
+
+    const attendancePlusCounts = attendanceList.reduce((acc, attendance) => {
+      const plus = guestMap.get(attendance.guestId) || 0;
+      acc[attendance.willAttend] += plus;
+      totalAttendancePluses += plus;
+      return acc;
+    }, { ...initialPlusVal });
 
     return {
       guestCount,
+      guestPlusCount,
       attendanceCounts: { ...willAttendCounts, total: attendanceCount },
+      attendancePlusCounts: { ...attendancePlusCounts, total: totalAttendancePluses },
     };
   },
 });

@@ -38,7 +38,18 @@ export const findAll = query({
     const userId = await getAuthUserId(ctx);
     if (!userId) return;
     const attendanceList = await ctx.db.query("attendance").collect();
-    return attendanceList;
+
+    const attendanceWithPlus = await Promise.all(
+      attendanceList.map(async (attendance) => {
+        const guest = await ctx.db.get(attendance.guestId);
+        return {
+          ...attendance,
+          plus: guest?.plus || 0,
+        };
+      })
+    );
+
+    return attendanceWithPlus;
   },
 });
 

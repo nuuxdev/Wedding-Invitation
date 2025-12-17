@@ -29,6 +29,7 @@ export default defineSchema({
     invited: v.optional(v.boolean()),
     firstNameAm: v.optional(v.string()),
     lastNameAm: v.optional(v.string()),
+    plus: v.optional(v.number()),
   }),
   wish: defineTable({
     message: v.string(),

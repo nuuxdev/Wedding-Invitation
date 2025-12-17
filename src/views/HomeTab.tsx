@@ -9,17 +9,80 @@ export function HomeTab() {
     return (
         <div>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px", marginTop: "20px" }}>
-                <StatCard label="Total Guests" value={guestStats?.guestCount ?? 0} />
-                <StatCard label="Total Responses" value={guestStats?.attendanceCounts.total ?? 0} />
-                <StatCard label="Attending" value={guestStats?.attendanceCounts.yes ?? 0} color="var(--color-crimson)" />
-                <StatCard label="Not Attending" value={guestStats?.attendanceCounts.no ?? 0} color="var(--color-stone)" />
-                <StatCard label="Tentative" value={guestStats?.attendanceCounts.maybe ?? 0} color="var(--color-gold)" />
+                <StatCard
+                    label="Total Guests"
+                    value={
+                        <span>
+                            {guestStats?.guestCount ?? 0}
+                            {(guestStats?.guestPlusCount ?? 0) > 0 && (
+                                <sup style={{ fontSize: "0.5em", marginLeft: "4px", color: "var(--color-gold)" }}>
+                                    +{guestStats?.guestPlusCount}
+                                </sup>
+                            )}
+                        </span>
+                    }
+                />
+                <StatCard
+                    label="Total Responses"
+                    value={
+                        <span>
+                            {guestStats?.attendanceCounts.total ?? 0}
+                            {(guestStats?.attendancePlusCounts.total ?? 0) > 0 && (
+                                <sup style={{ fontSize: "0.5em", marginLeft: "4px", color: "var(--color-gold)" }}>
+                                    +{guestStats?.attendancePlusCounts.total}
+                                </sup>
+                            )}
+                        </span>
+                    }
+                />
+                <StatCard
+                    label="Attending"
+                    value={
+                        <span>
+                            {guestStats?.attendanceCounts.yes ?? 0}
+                            {(guestStats?.attendancePlusCounts.yes ?? 0) > 0 && (
+                                <sup style={{ fontSize: "0.5em", marginLeft: "4px", color: "var(--color-gold)" }}>
+                                    +{guestStats?.attendancePlusCounts.yes}
+                                </sup>
+                            )}
+                        </span>
+                    }
+                    color="var(--color-crimson)"
+                />
+                <StatCard
+                    label="Not Attending"
+                    value={
+                        <span>
+                            {guestStats?.attendanceCounts.no ?? 0}
+                            {(guestStats?.attendancePlusCounts.no ?? 0) > 0 && (
+                                <sup style={{ fontSize: "0.5em", marginLeft: "4px", color: "var(--color-gold)" }}>
+                                    +{guestStats?.attendancePlusCounts.no}
+                                </sup>
+                            )}
+                        </span>
+                    }
+                    color="var(--color-stone)"
+                />
+                <StatCard
+                    label="Tentative"
+                    value={
+                        <span>
+                            {guestStats?.attendanceCounts.maybe ?? 0}
+                            {(guestStats?.attendancePlusCounts.maybe ?? 0) > 0 && (
+                                <sup style={{ fontSize: "0.5em", marginLeft: "4px", color: "var(--color-gold)" }}>
+                                    +{guestStats?.attendancePlusCounts.maybe}
+                                </sup>
+                            )}
+                        </span>
+                    }
+                    color="var(--color-gold)"
+                />
             </div>
         </div>
     );
 }
 
-function StatCard({ label, value, color = "var(--color-charcoal)" }: { label: string; value: number; color?: string }) {
+function StatCard({ label, value, color = "var(--color-charcoal)" }: { label: string; value: number | React.ReactNode; color?: string }) {
     return (
         <div className="stat-card">
             <div className="stat-card-value" style={{ color }}>{value}</div>
