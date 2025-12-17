@@ -7,8 +7,15 @@ export function GuestListTab({ canInvite }: { canInvite: boolean }) {
     const guests = useQuery(api.guest.findAll);
     const markInvited = useMutation(api.guest.markInvited);
     const [interactingGuestId, setInteractingGuestId] = useState<string | null>(null);
+    const [filter, setFilter] = useState<"all" | "invited" | "not_invited">("all");
 
     if (guests === undefined) return <div className="loading">Loading guests...</div>;
+
+    const filteredGuests = guests.filter((guest) => {
+        if (filter === "invited") return guest.invited;
+        if (filter === "not_invited") return !guest.invited;
+        return true;
+    });
 
     const generateMessage = (guest: Doc<"guest">) => {
         const link = `${window.location.origin}/${guest._id}`;
@@ -34,9 +41,57 @@ export function GuestListTab({ canInvite }: { canInvite: boolean }) {
 
     return (
         <div>
+            <div style={{ display: "flex", gap: "10px" }}>
+                <button
+                    onClick={() => setFilter("all")}
+                    style={{
+                        flex: 1,
+                        padding: "10px",
+                        borderRadius: "8px",
+                        border: "none",
+                        backgroundColor: filter === "all" ? "var(--color-gold)" : "var(--color-surface)",
+                        color: filter === "all" ? "white" : "var(--color-charcoal)",
+                        cursor: "pointer",
+                        fontWeight: "bold"
+                    }}
+                >
+                    All
+                </button>
+                <button
+                    onClick={() => setFilter("invited")}
+                    style={{
+                        flex: 1,
+                        padding: "10px",
+                        borderRadius: "8px",
+                        border: "none",
+                        backgroundColor: filter === "invited" ? "var(--color-gold)" : "var(--color-surface)",
+                        color: filter === "invited" ? "white" : "var(--color-charcoal)",
+                        cursor: "pointer",
+                        fontWeight: "bold"
+                    }}
+                >
+                    Invited
+                </button>
+                <button
+                    onClick={() => setFilter("not_invited")}
+                    style={{
+                        flex: 1,
+                        padding: "10px",
+                        borderRadius: "8px",
+                        border: "none",
+                        backgroundColor: filter === "not_invited" ? "var(--color-gold)" : "var(--color-surface)",
+                        color: filter === "not_invited" ? "white" : "var(--color-charcoal)",
+                        cursor: "pointer",
+                        fontWeight: "bold"
+                    }}
+                >
+                    Not Invited
+                </button>
+            </div>
+
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                {guests && guests.length > 0 ? (
-                    guests.map((guest) => {
+                {filteredGuests.length > 0 ? (
+                    filteredGuests.map((guest) => {
                         const message = generateMessage(guest);
                         const smsLink = `sms:${guest.phoneNumber}?body=${encodeURIComponent(message)}`;
 

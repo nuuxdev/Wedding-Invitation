@@ -2,11 +2,21 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { Infer } from "convex/values";
 import { VwillAttend } from "../../convex/attendance";
+import { useState } from "react";
 
 export function AttendanceTab() {
     const attendanceList = useQuery(api.attendance.findAll);
+    const [searchQuery, setSearchQuery] = useState("");
 
     if (attendanceList === undefined) return <div className="loading">Loading list...</div>;
+
+    const filteredList = (attendanceList || []).filter((attendance) => {
+        const query = searchQuery.toLowerCase();
+        return (
+            attendance.fullName.toLowerCase().includes(query) ||
+            attendance.guestId.toLowerCase().includes(query)
+        );
+    });
 
     const willAttendColors: Record<Infer<typeof VwillAttend>, string> = {
         yes: "var(--color-crimson)",
@@ -16,9 +26,24 @@ export function AttendanceTab() {
 
     return (
         <div>
+            <div style={{ marginBottom: "20px" }}>
+                <input
+                    type="text"
+                    placeholder="Search by name or ID..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{
+                        width: "100%",
+                        padding: "12px",
+                        borderRadius: "8px",
+                        border: "1px solid var(--color-stone)",
+                        fontSize: "1rem",
+                    }}
+                />
+            </div>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                {attendanceList && attendanceList.length > 0 ? (
-                    attendanceList.map((attendance) => (
+                {filteredList.length > 0 ? (
+                    filteredList.map((attendance) => (
                         <div key={attendance._id} className="guest-card" style={{
                             display: "flex",
                             justifyContent: "space-between",
