@@ -26,6 +26,18 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'Mulat Asmara';
+  src: url('/Mulat_Asmara_Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.mulat-font {
+  font-family: 'Mulat Asmara', cursive;
+}
+
 /* CSS Layers Architecture */
 @layer reset, theme, layout, components, utilities;
 
@@ -328,37 +340,6 @@
     /* Animate blur and background */
     transition: background-color 1.5s ease, backdrop-filter 1.5s ease, -webkit-backdrop-filter 1.5s ease;
 
-    /* Open State */
-    &.open {
-      background: rgba(0, 0, 0, 0.2);
-      backdrop-filter: blur(1px);
-      -webkit-backdrop-filter: blur(1px);
-
-      /* Reveal Border */
-      &::before {
-        clip-path: inset(var(--_inset-open) round 60px 0 60px 0);
-      }
-
-      /* Reveal Image (2px smaller for border effect) */
-      &::after {
-        background-size: 146%;
-        /* We need to recalculate the inset for the inner image to be 2px smaller */
-        /* Since we can't easily subtract 2px from the complex inset variable, we reconstruct it using the base vars */
-        clip-path: inset(calc(50% - (var(--clip-h-open) - 2px)) calc(50% - (var(--clip-w-open) - 2px)) calc(50% - (var(--clip-h-open) - 2px)) calc(50% - (var(--clip-w-open) - 2px)) round 58px 0 58px 0);
-      }
-
-      @media (min-width: 768px) {
-        &::before {
-          clip-path: inset(var(--_inset-open) round 80px 0 80px 0);
-        }
-
-        &::after {
-          background-size: 100%;
-          clip-path: inset(calc(50% - (var(--clip-h-open) - 2px)) calc(50% - (var(--clip-w-open) - 2px)) calc(50% - (var(--clip-h-open) - 2px)) calc(50% - (var(--clip-w-open) - 2px)) round 78px 0 78px 0);
-        }
-      }
-    }
-
     /* Border Layer (White) */
     &::before {
       content: "";
@@ -373,17 +354,55 @@
 
     /* Image Layer (Sharp) */
     &::after {
+      --_img-width: 716;
+      --_img-height: 955;
+      --img-ratio: calc(var(--_img-height) / var(--_img-width));
+      /* height / width */
       content: "";
       position: absolute;
       inset: 0;
       background-image: url("/cover.webp");
-      background-size: 50%;
+      background-size: 50% calc(50lvw*var(--img-ratio));
       background-position: center;
       background-repeat: no-repeat;
       clip-path: inset(calc(50% - (var(--clip-h-closed) - 2px)) calc(50% - (var(--clip-w-closed) - 2px)) calc(50% - (var(--clip-h-closed) - 2px)) calc(50% - (var(--clip-w-closed) - 2px)) round 29px 0 29px 0);
       transition: clip-path 1.5s cubic-bezier(0.22, 1, 0.36, 1), background-size 2s cubic-bezier(0.22, 1, 0.36, 1);
       z-index: 2;
     }
+
+    /* Open State */
+    &.open {
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(1px);
+      -webkit-backdrop-filter: blur(1px);
+
+      /* Reveal Border */
+      &::before {
+        clip-path: inset(var(--_inset-open) round 60px 0 60px 0);
+      }
+
+      /* Reveal Image (2px smaller for border effect) */
+      &::after {
+        background-size:
+          max(100%, calc(100vh / var(--img-ratio))) max(100%, calc(100vw * var(--img-ratio)));
+        /* We need to recalculate the inset for the inner image to be 2px smaller */
+        /* Since we can't easily subtract 2px from the complex inset variable, we reconstruct it using the base vars */
+        clip-path: inset(calc(50% - (var(--clip-h-open) - 2px)) calc(50% - (var(--clip-w-open) - 2px)) calc(50% - (var(--clip-h-open) - 2px)) calc(50% - (var(--clip-w-open) - 2px)) round 58px 0 58px 0);
+      }
+
+      @media (min-width: 768px) {
+        &::before {
+          clip-path: inset(var(--_inset-open) round 80px 0 80px 0);
+        }
+
+        &::after {
+          /* background-size: 100%; */
+          clip-path: inset(calc(50% - (var(--clip-h-open) - 2px)) calc(50% - (var(--clip-w-open) - 2px)) calc(50% - (var(--clip-h-open) - 2px)) calc(50% - (var(--clip-w-open) - 2px)) round 78px 0 78px 0);
+        }
+      }
+    }
+
+
   }
 
 
@@ -419,7 +438,7 @@
 
       h1 {
         color: var(--color-white);
-        margin-block: -1rem;
+        /* margin-block: -1rem; */
         font-size: 3rem;
       }
     }
@@ -455,7 +474,7 @@
         margin-right: auto;
         transition: transform 0.3s ease;
         position: absolute;
-        bottom: -30%;
+        bottom: -60%;
 
         &:hover {
           transform: scale(1.1);
@@ -483,7 +502,7 @@
     }
 
     50% {
-      transform: scale(1.05);
+      transform: scale(1.25);
     }
   }
 
@@ -514,7 +533,7 @@
       color: var(--color-gold);
       animation-play-state: paused;
       /* Pause animation on hover */
-      transform: scale(1.05);
+      transform: scale(1.25);
       /* Keep scaled up state */
       box-shadow: 0 6px 25px rgba(255, 255, 255, 0.4);
     }
@@ -756,8 +775,7 @@
     @media (min-width: 768px) {
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(4, 200px);
-      grid-template-areas:
-        "one one two three"
+      grid-template-areas: "one one two three"
         "one one four five"
         "six seven eight eight"
         "nine seven eight eight";
@@ -909,10 +927,10 @@
     display: inline-block;
     transition: all 0.3s ease;
 
-    &:hover {
+    /* &:hover {
       background: var(--color-crimson);
       color: var(--color-white);
-    }
+    } */
   }
 
   /* Admin Page Styles */

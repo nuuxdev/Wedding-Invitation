@@ -164,7 +164,7 @@ export default function Guest() {
                       alt={`${weddingInfo?.groomFirstName} ${weddingInfo?.groomLastName}`}
                     />
                   </div>
-                  <h3>{lang === 'am' ? (weddingInfo?.groomFirstNameAm || weddingInfo?.groomFirstName) : weddingInfo?.groomFirstName} {lang === 'am' ? (weddingInfo?.groomLastNameAm || weddingInfo?.groomLastName) : weddingInfo?.groomLastName}</h3>
+                  <h3 className="mulat-font">{lang === 'am' ? (weddingInfo?.groomFirstNameAm || weddingInfo?.groomFirstName) : weddingInfo?.groomFirstName} {lang === 'am' ? (weddingInfo?.groomLastNameAm || weddingInfo?.groomLastName) : weddingInfo?.groomLastName}</h3>
                   <a href={weddingInfo?.groomInstagram || "#"} target="_blank" rel="noopener noreferrer">
                     <img src="/instagram.png" alt="Instagram" style={{ width: '24px', height: '24px', display: 'inline-block', border: 'none', borderRadius: 0, outline: 'none', boxShadow: 'none' }} />
                   </a>
@@ -176,7 +176,7 @@ export default function Guest() {
                       alt={`${weddingInfo?.brideFirstName} ${weddingInfo?.brideLastName}`}
                     />
                   </div>
-                  <h3>{lang === 'am' ? (weddingInfo?.brideFirstNameAm || weddingInfo?.brideFirstName) : weddingInfo?.brideFirstName} {lang === 'am' ? (weddingInfo?.brideLastNameAm || weddingInfo?.brideLastName) : weddingInfo?.brideLastName}</h3>
+                  <h3 className="mulat-font">{lang === 'am' ? (weddingInfo?.brideFirstNameAm || weddingInfo?.brideFirstName) : weddingInfo?.brideFirstName} {lang === 'am' ? (weddingInfo?.brideLastNameAm || weddingInfo?.brideLastName) : weddingInfo?.brideLastName}</h3>
                   <a href={weddingInfo?.brideInstagram || "#"} target="_blank" rel="noopener noreferrer">
                     <img src="/instagram.png" alt="Instagram" style={{ width: '24px', height: '24px', display: 'inline-block', border: 'none', borderRadius: 0, outline: 'none', boxShadow: 'none' }} />
                   </a>
