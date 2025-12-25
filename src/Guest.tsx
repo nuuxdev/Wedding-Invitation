@@ -185,8 +185,8 @@ export default function Guest() {
 
               {/* Quote Section */}
               <section className="text-center" style={{ maxWidth: '600px', margin: '0 auto' }}>
-                <p style={{ fontSize: '1.2rem', lineHeight: 1.8, fontStyle: 'italic', fontFamily: 'serif', color: 'var(--color-stone)' }}>
-                  "No one has ever seen God: but if we love one another, God lives in us and his love is complete in us. -1 John 4:12"
+                <p style={{ fontSize: '1.2rem', lineHeight: 1.8, fontStyle: 'italic', fontFamily: 'var(--font-sans)', color: 'var(--color-stone)' }}>
+                  {t('quote')}
                 </p>
               </section>
 

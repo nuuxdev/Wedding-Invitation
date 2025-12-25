@@ -1,6 +1,7 @@
 "use client";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { LanguageProvider } from "./LanguageContext";
 import Admin from "./Admin";
 import Guest from "./Guest";
 
@@ -19,7 +20,6 @@ const router = createBrowserRouter([
   },
 ]);
 
-import { LanguageProvider } from "./LanguageContext";
 
 export default function App() {
   return (

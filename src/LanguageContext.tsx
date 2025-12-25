@@ -87,6 +87,10 @@ export const translations: Record<string, Record<Language, string>> = {
         en: "Your Message",
         am: "መልእክትዎ"
     },
+    quote: {
+        en: "No one has ever seen God: but if we love one another, God lives in us and his love is complete in us. -1 John 4:12",
+        am: "እግዚአብሔርን ማንም ከቶ አላየውም፤ እርስ በርሳችን ብንዋደድ እግዚአብሔር በእኛ ይኖራል ፍቅሩም በእኛ ፍጹም ሆኖአል። ፩ኛ የዮሐንስ መልእክት ም. ፬ ቊ. ፲፪"
+    },
     sendWish: {
         en: "Send Wish",
         am: "መልእክት ይላኩ"
