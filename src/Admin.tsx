@@ -173,16 +173,24 @@ function SignInForm() {
   const { signIn } = useAuthActions();
   const [flow] = useState<"signIn" | "signUp">("signIn");
   const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <form
       className="admin-login-form"
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+        setError(null);
         const formData = new FormData(e.target as HTMLFormElement);
         formData.set("flow", flow);
-        void signIn("password", formData).catch((error) => {
-          setError(error.message);
-        });
+        try {
+          await signIn("password", formData);
+        } catch (err) {
+          console.error(err);
+          setError("invalid credentials");
+        } finally {
+          setIsLoading(false);
+        }
       }}
     >
       <div className="form-group">
@@ -203,12 +211,12 @@ function SignInForm() {
           placeholder="Password"
         />
       </div>
-      <button type="submit">
-        {flow === "signIn" ? "Sign in" : "Sign up"}
+      <button type="submit" disabled={isLoading}>
+        {isLoading ? "Loading..." : (flow === "signIn" ? "Sign in" : "Sign up")}
       </button>
       {error && (
         <div className="error-message">
-          <p>Error signing in: {error}</p>
+          <p>{error}</p>
         </div>
       )}
     </form>
