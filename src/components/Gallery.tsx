@@ -2,17 +2,7 @@ import { useLanguage } from "../LanguageContext";
 
 export default function Gallery() {
   const { t } = useLanguage();
-  const images = [
-    "/1.webp",
-    "/2.webp",
-    "/3.webp",
-    "/4.webp",
-    "/5.webp",
-    "/6.webp",
-    "/7.webp",
-    "/8.webp",
-    "/9.webp"
-  ];
+  const images = Array.from({ length: 18 }, (_, i) => `/${i + 1}.webp`);
   return (
     <div className="gallery-section">
       <h3 className="text-center">{t('capturedMoments')}</h3>
