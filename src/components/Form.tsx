@@ -223,6 +223,13 @@ export default function Form({ guest, weddingInfo }: { guest: Doc<"guest">, wedd
 
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
+      <div className="text-center" style={{ marginBottom: '2rem' }}>
+        <h2 style={{ fontSize: '2.5rem', marginBottom: '0.5rem' }}>{t('rsvp')}</h2>
+        <p style={{ fontSize: '1.2rem', lineHeight: 1.8, fontStyle: 'italic', fontFamily: 'var(--font-sans)', color: 'var(--color-stone)' }}>
+          {t('pleaseFillForm')}
+        </p>
+      </div>
+
       <div className="form-group">
         <label htmlFor="guestName">{t('guestName')}</label>
         <input
@@ -257,6 +264,8 @@ export default function Form({ guest, weddingInfo }: { guest: Doc<"guest">, wedd
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder={t('shareYourWishes')}
+          minLength={3}
+          maxLength={200}
         />
       </div>
 

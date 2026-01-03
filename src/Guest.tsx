@@ -198,6 +198,19 @@ export default function Guest() {
               <section className="text-center" style={{ padding: 'var(--space-xl) 0' }}>
                 <h2 style={{ fontSize: lang === 'am' ? 'clamp(3rem, 8vw, 5rem)' : 'clamp(4rem, 10vw, 6rem)', color: 'var(--color-crimson)' }}>{t('thankYou')}</h2>
                 <p style={{ fontSize: '1.5rem', fontStyle: 'italic', marginTop: '1rem' }}>{t('thankYouSub')}</p>
+                <p style={{
+                  fontSize: '1rem',
+                  marginTop: '1.5rem',
+                  maxWidth: '500px',
+                  marginInline: 'auto',
+                  color: 'var(--color-gold-dim)',
+                  border: '1px solid var(--color-gold-dim)',
+                  padding: '1rem',
+                  borderRadius: 'var(--radius-md)',
+                  fontStyle: 'italic'
+                }}>
+                  {t('warmClothes')}
+                </p>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', marginTop: '2rem', opacity: 0.6 }}>
                   <img src="/floral.png" alt="decoration" width={80} />
                 </div>

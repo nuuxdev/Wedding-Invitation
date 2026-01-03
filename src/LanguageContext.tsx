@@ -170,6 +170,18 @@ export const translations: Record<string, Record<Language, string>> = {
     location: {
         en: "Location",
         am: "ቦታ"
+    },
+    pleaseFillForm: {
+        en: "Kindly complete the form below to confirm your attendance.",
+        am: "እባክዎ መገኘትዎን ለማረጋገጥ ከታች ያለውን ቅጽ ይሙሉ።"
+    },
+    loadRandom: {
+        en: "Shuffle Wishes",
+        am: "ሌላ ምኞት አሳይ"
+    },
+    warmClothes: {
+        en: "Please kindly bring warm clothes since the event is going to take place outdoors.",
+        am: "ዝግጅቱ የሚካሄደው ከቤት ውጭ ነፋሻማ ቦታ ላይ ስለሆነ ሙቀት ሰጪ ልብስ መያዝ ይመከራል!"
     }
 };
 
