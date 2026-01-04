@@ -1,0 +1,911 @@
+[
+    {
+        "firstName": "Aster",
+        "lastName": "Abebe",
+        "phoneNumber": "0911691706",
+        "invited": false,
+        "firstNameAm": "አስቴር",
+        "lastNameAm": "አበበ",
+        "plus": null
+    },
+    {
+        "firstName": "Addis",
+        "lastName": "Fikadu",
+        "phoneNumber": "0920341208",
+        "invited": false,
+        "firstNameAm": "አዲስ",
+        "lastNameAm": "ፍቃዱ",
+        "plus": 1
+    },
+    {
+        "firstName": "Fikadu",
+        "lastName": "",
+        "phoneNumber": "0913216129",
+        "invited": false,
+        "firstNameAm": "ፍቃዱ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Mikiyas",
+        "lastName": "Mengistu",
+        "phoneNumber": "0927441111",
+        "invited": false,
+        "firstNameAm": "ሚኪያስ",
+        "lastNameAm": "መንግስቱ",
+        "plus": 1
+    },
+    {
+        "firstName": "Misrak",
+        "lastName": "Merid",
+        "phoneNumber": "0911915531",
+        "invited": false,
+        "firstNameAm": "ምስራቅ",
+        "lastNameAm": "መርዕድ",
+        "plus": null
+    },
+    {
+        "firstName": "Genet",
+        "lastName": "",
+        "phoneNumber": "0915553213",
+        "invited": false,
+        "firstNameAm": "ገነት",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Belye",
+        "lastName": "",
+        "phoneNumber": "0911379551",
+        "invited": false,
+        "firstNameAm": "በልዬ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Senayit",
+        "lastName": "",
+        "phoneNumber": "0982352375",
+        "invited": false,
+        "firstNameAm": "ሰናይት",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Meseret",
+        "lastName": "Markos",
+        "phoneNumber": "0913414583",
+        "invited": false,
+        "firstNameAm": "መሰረት",
+        "lastNameAm": "ማርቆስ",
+        "plus": 1
+    },
+    {
+        "firstName": "Wubalem",
+        "lastName": "kifle",
+        "phoneNumber": "0974564564",
+        "invited": false,
+        "firstNameAm": "ዉባለም",
+        "lastNameAm": "ክፍሌ",
+        "plus": null
+    },
+    {
+        "firstName": "Asnakech",
+        "lastName": "",
+        "phoneNumber": "0913795638",
+        "invited": false,
+        "firstNameAm": "አስናቀች",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Etsegenet",
+        "lastName": "",
+        "phoneNumber": "0920556943",
+        "invited": false,
+        "firstNameAm": "እፀገነት",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Tariku",
+        "lastName": "Bekele",
+        "phoneNumber": "0913947060",
+        "invited": false,
+        "firstNameAm": "ታሪኩ",
+        "lastNameAm": "በቀለ",
+        "plus": null
+    },
+    {
+        "firstName": "Tibebu",
+        "lastName": "",
+        "phoneNumber": "0917074504",
+        "invited": false,
+        "firstNameAm": "ጥበቡ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Birtukan",
+        "lastName": "Tariku",
+        "phoneNumber": "0911035313",
+        "invited": false,
+        "firstNameAm": "ብርቱካን",
+        "lastNameAm": "ታሪኩ",
+        "plus": 1
+    },
+    {
+        "firstName": "Mesfen",
+        "lastName": "Bogale",
+        "phoneNumber": "0911035313",
+        "invited": false,
+        "firstNameAm": "መስፍን",
+        "lastNameAm": "ቦጋለ",
+        "plus": 1
+    },
+    {
+        "firstName": "Addis",
+        "lastName": "Awlachew",
+        "phoneNumber": "0924855012",
+        "invited": false,
+        "firstNameAm": "አዲስ",
+        "lastNameAm": "አውላቸው",
+        "plus": null
+    },
+    {
+        "firstName": "Elsabet",
+        "lastName": "",
+        "phoneNumber": "0911488637",
+        "invited": false,
+        "firstNameAm": "ኤልሳቤጥ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Dereje",
+        "lastName": "Ketema",
+        "phoneNumber": "0911874275",
+        "invited": false,
+        "firstNameAm": "ደረጀ",
+        "lastNameAm": "ከተማ",
+        "plus": null
+    },
+    {
+        "firstName": "Freweyni",
+        "lastName": "",
+        "phoneNumber": "0911030833",
+        "invited": false,
+        "firstNameAm": "ፍሬወይኒ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Bekele",
+        "lastName": "Gashu",
+        "phoneNumber": "0912102816",
+        "invited": false,
+        "firstNameAm": "በቀለ",
+        "lastNameAm": "ጋሹ",
+        "plus": 1
+    },
+    {
+        "firstName": "Hirut",
+        "lastName": "Gashu",
+        "phoneNumber": "0911874275",
+        "invited": false,
+        "firstNameAm": "ሂሩት",
+        "lastNameAm": "ጋሹ",
+        "plus": 1
+    },
+    {
+        "firstName": "Lijalem",
+        "lastName": "",
+        "phoneNumber": "0912086662",
+        "invited": false,
+        "firstNameAm": "ልጃለም",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Dawit",
+        "lastName": "Gashu",
+        "phoneNumber": "0912452448",
+        "invited": false,
+        "firstNameAm": "ዳዊት",
+        "lastNameAm": "ጋሹ",
+        "plus": 1
+    },
+    {
+        "firstName": "Teferi",
+        "lastName": "Yirefu",
+        "phoneNumber": "09111700687",
+        "invited": false,
+        "firstNameAm": "ተፈሪ",
+        "lastNameAm": "ይረፉ",
+        "plus": null
+    },
+    {
+        "firstName": "Nunu",
+        "lastName": "Teferi",
+        "phoneNumber": "0910614244",
+        "invited": false,
+        "firstNameAm": "ኑኑ",
+        "lastNameAm": "ተፈሪ",
+        "plus": null
+    },
+    {
+        "firstName": "Tadele",
+        "lastName": "",
+        "phoneNumber": "0911458188",
+        "invited": false,
+        "firstNameAm": "ታደለ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Ayinalem",
+        "lastName": "Teferi",
+        "phoneNumber": "0910531350",
+        "invited": false,
+        "firstNameAm": "አይናለም",
+        "lastNameAm": "ተፈሪ",
+        "plus": null
+    },
+    {
+        "firstName": "Getahun",
+        "lastName": "",
+        "phoneNumber": "0911651030",
+        "invited": false,
+        "firstNameAm": "ጌታሁን",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Fasika",
+        "lastName": "",
+        "phoneNumber": "0911135601",
+        "invited": false,
+        "firstNameAm": "ፋሲካ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Hayimanot",
+        "lastName": "Teferi",
+        "phoneNumber": "0913203442",
+        "invited": false,
+        "firstNameAm": "ሃይማኖት",
+        "lastNameAm": "ተፈሪ",
+        "plus": 1
+    },
+    {
+        "firstName": "Shewaye",
+        "lastName": "Mengistu",
+        "phoneNumber": "0913897053",
+        "invited": false,
+        "firstNameAm": "ሸዋዬ",
+        "lastNameAm": "መንግስቱ",
+        "plus": null
+    },
+    {
+        "firstName": "Zelalem",
+        "lastName": "Mengistu",
+        "phoneNumber": "0923798501",
+        "invited": false,
+        "firstNameAm": "ዘላለም",
+        "lastNameAm": "መንግስቱ",
+        "plus": null
+    },
+    {
+        "firstName": "Esayas",
+        "lastName": "Mengistu",
+        "phoneNumber": "0911009855",
+        "invited": false,
+        "firstNameAm": "ኢሳያስ",
+        "lastNameAm": "መንግስቱ",
+        "plus": 1
+    },
+    {
+        "firstName": "Eleni",
+        "lastName": "Mengistu",
+        "phoneNumber": "0913428238",
+        "invited": false,
+        "firstNameAm": "እሌኒ",
+        "lastNameAm": "መንግስቱ",
+        "plus": null
+    },
+    {
+        "firstName": "Melaku",
+        "lastName": "",
+        "phoneNumber": "0911456161",
+        "invited": false,
+        "firstNameAm": "መላኩ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Bayachew",
+        "lastName": "",
+        "phoneNumber": "0983288764",
+        "invited": false,
+        "firstNameAm": "ባያቸው",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Mekoya",
+        "lastName": "",
+        "phoneNumber": "0913421913",
+        "invited": false,
+        "firstNameAm": "መቆያ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Ehetnesh",
+        "lastName": "",
+        "phoneNumber": "0930710179",
+        "invited": false,
+        "firstNameAm": "እህትነሽ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Beza",
+        "lastName": "",
+        "phoneNumber": "0924953350",
+        "invited": false,
+        "firstNameAm": "ቤዛ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Markos",
+        "lastName": "",
+        "phoneNumber": "0910041113",
+        "invited": false,
+        "firstNameAm": "ማርቆስ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Sisay",
+        "lastName": "",
+        "phoneNumber": "0937398864",
+        "invited": false,
+        "firstNameAm": "ሲሳይ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Shewanesh",
+        "lastName": "",
+        "phoneNumber": "0913034375",
+        "invited": false,
+        "firstNameAm": "ሸዋነሽ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Tewodros",
+        "lastName": "",
+        "phoneNumber": "0991221680",
+        "invited": false,
+        "firstNameAm": "ቴዎድሮስ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Zertihun",
+        "lastName": "",
+        "phoneNumber": "0910328957",
+        "invited": false,
+        "firstNameAm": "ዘርትሁን",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Bogalech",
+        "lastName": "",
+        "phoneNumber": "0922821415",
+        "invited": false,
+        "firstNameAm": "ቦጋለች",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Abeba",
+        "lastName": "",
+        "phoneNumber": "0920332125",
+        "invited": false,
+        "firstNameAm": "አበባ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Workneh",
+        "lastName": "",
+        "phoneNumber": "0923989738",
+        "invited": false,
+        "firstNameAm": "ወርቅነህ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Getachew",
+        "lastName": "",
+        "phoneNumber": "0911116779",
+        "invited": false,
+        "firstNameAm": "ጌታቸው",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Yehwalashet",
+        "lastName": "",
+        "phoneNumber": "0911627512",
+        "invited": false,
+        "firstNameAm": "የኋላሸት",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Emebu",
+        "lastName": "",
+        "phoneNumber": "0911456079",
+        "invited": false,
+        "firstNameAm": "እመቡ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Hadere",
+        "lastName": "",
+        "phoneNumber": "0911694838",
+        "invited": false,
+        "firstNameAm": "ሀደረ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Aster",
+        "lastName": "Bedada",
+        "phoneNumber": "0913677244",
+        "invited": false,
+        "firstNameAm": "አስቴር",
+        "lastNameAm": "በዳዳ",
+        "plus": null
+    },
+    {
+        "firstName": "Ermiyas",
+        "lastName": "",
+        "phoneNumber": "0912203002",
+        "invited": false,
+        "firstNameAm": "ኤርሚያስ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Teshome",
+        "lastName": "Leyu",
+        "phoneNumber": "0913588858",
+        "invited": false,
+        "firstNameAm": "ተሾመ",
+        "lastNameAm": "ለዩ",
+        "plus": 1
+    },
+    {
+        "firstName": "Serke",
+        "lastName": "",
+        "phoneNumber": "0913601706",
+        "invited": false,
+        "firstNameAm": "ሰርኬ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Fozia",
+        "lastName": "",
+        "phoneNumber": "0913700579",
+        "invited": false,
+        "firstNameAm": "ፎዚያ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Ayele",
+        "lastName": "",
+        "phoneNumber": "0911412149",
+        "invited": false,
+        "firstNameAm": "አየለ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Admasu",
+        "lastName": "",
+        "phoneNumber": "0913034144",
+        "invited": false,
+        "firstNameAm": "አድማሱ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Tiruneh",
+        "lastName": "Tilahun",
+        "phoneNumber": "0913608885",
+        "invited": false,
+        "firstNameAm": "ጥሩነህ",
+        "lastNameAm": "ጥላሁን",
+        "plus": 1
+    },
+    {
+        "firstName": "Bisrat",
+        "lastName": "",
+        "phoneNumber": "0913034144",
+        "invited": false,
+        "firstNameAm": "ብስራት",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Desta",
+        "lastName": "",
+        "phoneNumber": "0911108363",
+        "invited": false,
+        "firstNameAm": "ደስታ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Asnakech",
+        "lastName": "",
+        "phoneNumber": "0937398864",
+        "invited": false,
+        "firstNameAm": "አስናቀች",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Tesfaye",
+        "lastName": "",
+        "phoneNumber": "0913552166",
+        "invited": false,
+        "firstNameAm": "ተስፋዬ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Armeme",
+        "lastName": "",
+        "phoneNumber": "0911755845",
+        "invited": false,
+        "firstNameAm": "አርምሜ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Meseret",
+        "lastName": "",
+        "phoneNumber": "0911511886",
+        "invited": false,
+        "firstNameAm": "መሰረት",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Amare",
+        "lastName": "Bekele",
+        "phoneNumber": "0934461921",
+        "invited": false,
+        "firstNameAm": "አማረ",
+        "lastNameAm": "በቀለ",
+        "plus": null
+    },
+    {
+        "firstName": "Nigist",
+        "lastName": "",
+        "phoneNumber": "0967999189",
+        "invited": false,
+        "firstNameAm": "ንግስት",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Feven",
+        "lastName": "",
+        "phoneNumber": "0923707511",
+        "invited": false,
+        "firstNameAm": "ፌቨን",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Shikur",
+        "lastName": "",
+        "phoneNumber": "0911312582",
+        "invited": false,
+        "firstNameAm": "ሽኩር",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Hewan",
+        "lastName": "",
+        "phoneNumber": "0913020533",
+        "invited": false,
+        "firstNameAm": "ሄዋን",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Assefa",
+        "lastName": "",
+        "phoneNumber": "0913248114",
+        "invited": false,
+        "firstNameAm": "አሰፋ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Yishak",
+        "lastName": "",
+        "phoneNumber": "0913763905",
+        "invited": false,
+        "firstNameAm": "ይሳቅ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Shewaye",
+        "lastName": "",
+        "phoneNumber": "0912347260",
+        "invited": false,
+        "firstNameAm": "ሸዋዬ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Arsema",
+        "lastName": "",
+        "phoneNumber": "0902967924",
+        "invited": false,
+        "firstNameAm": "አርሴማ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Ayalew",
+        "lastName": "",
+        "phoneNumber": "0911931731",
+        "invited": false,
+        "firstNameAm": "አያሌው",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Wondossen",
+        "lastName": "",
+        "phoneNumber": "0911556235",
+        "invited": false,
+        "firstNameAm": "ወንድወሰን",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Mesfen",
+        "lastName": "Ewa",
+        "phoneNumber": "0910404030",
+        "invited": false,
+        "firstNameAm": "መስፍን",
+        "lastNameAm": "ኤዋ",
+        "plus": null
+    },
+    {
+        "firstName": "Bizuwork",
+        "lastName": "",
+        "phoneNumber": "0913687647",
+        "invited": false,
+        "firstNameAm": "ብዙወርቅ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Demekech",
+        "lastName": "",
+        "phoneNumber": "0911393215",
+        "invited": false,
+        "firstNameAm": "ደመቀች",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Birhane",
+        "lastName": "",
+        "phoneNumber": "0912320693",
+        "invited": false,
+        "firstNameAm": "ብርሀኔ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Meselech",
+        "lastName": "Mengistu",
+        "phoneNumber": "0922514039",
+        "invited": false,
+        "firstNameAm": "መሰለች",
+        "lastNameAm": "መንግስቱ",
+        "plus": null
+    },
+    {
+        "firstName": "Yalfal",
+        "lastName": "",
+        "phoneNumber": "0923240664",
+        "invited": false,
+        "firstNameAm": "ያልፋል",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Zewdnesh",
+        "lastName": "",
+        "phoneNumber": "0911981695",
+        "invited": false,
+        "firstNameAm": "ዘውድነሽ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Roman",
+        "lastName": "",
+        "phoneNumber": "0913247102",
+        "invited": false,
+        "firstNameAm": "ሮማን",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Yeshihareg",
+        "lastName": "",
+        "phoneNumber": "0922113134",
+        "invited": false,
+        "firstNameAm": "የሺሃረግ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Getachew",
+        "lastName": "",
+        "phoneNumber": "0911151695",
+        "invited": false,
+        "firstNameAm": "ጌታቸው",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Kalkidan",
+        "lastName": "",
+        "phoneNumber": "+251922574891",
+        "invited": false,
+        "firstNameAm": "ቃልኪዳን",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Rahel",
+        "lastName": "",
+        "phoneNumber": "+251909535787",
+        "invited": false,
+        "firstNameAm": "ራሄል",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Ashenafi",
+        "lastName": "",
+        "phoneNumber": "+251901242607",
+        "invited": false,
+        "firstNameAm": "አሸናፊ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Tsion",
+        "lastName": "",
+        "phoneNumber": "+251965662121",
+        "invited": false,
+        "firstNameAm": "ጽዮን",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Mekdes",
+        "lastName": "",
+        "phoneNumber": "+251912473720",
+        "invited": false,
+        "firstNameAm": "መቅደስ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Emi",
+        "lastName": "",
+        "phoneNumber": "+251930853134",
+        "invited": false,
+        "firstNameAm": "ኤሚ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Birhanu",
+        "lastName": "",
+        "phoneNumber": "+251922903117",
+        "invited": false,
+        "firstNameAm": "ብርሃኑ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Meron",
+        "lastName": "",
+        "phoneNumber": "+251922867790",
+        "invited": false,
+        "firstNameAm": "ሜሮን",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Elsabeth",
+        "lastName": "",
+        "phoneNumber": "+251944111972",
+        "invited": false,
+        "firstNameAm": "ኤልሳቤጥ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Zufan",
+        "lastName": "",
+        "phoneNumber": "+251901960194",
+        "invited": false,
+        "firstNameAm": "ዙፋን",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Beza",
+        "lastName": "",
+        "phoneNumber": "+251913563412",
+        "invited": false,
+        "firstNameAm": "ቤዛ",
+        "lastNameAm": "",
+        "plus": null
+    },
+    {
+        "firstName": "Maregu",
+        "lastName": "",
+        "phoneNumber": "+251933927345",
+        "invited": false,
+        "firstNameAm": "ማረጉ",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Hewan",
+        "lastName": "",
+        "phoneNumber": "+251923502670",
+        "invited": false,
+        "firstNameAm": "ሄዋን",
+        "lastNameAm": "",
+        "plus": 1
+    },
+    {
+        "firstName": "Meaza",
+        "lastName": "",
+        "phoneNumber": "+251911258597",
+        "invited": false,
+        "firstNameAm": "መዓዛ",
+        "lastNameAm": "",
+        "plus": 2
+    }
+]
