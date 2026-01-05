@@ -88,6 +88,65 @@ export default function Form({ guest, weddingInfo }: { guest: Doc<"guest">, wedd
     }
   }, [qrCodeUrl, attendance]);
 
+  useEffect(() => {
+    // Healing: If attendance exists but no QR code image is stored, regenerate and upload it.
+    if (attendance && !attendance.qrCodeUrl && (attendance as any).verifyUrl) {
+      const url = (attendance as any).verifyUrl;
+      setQrCodeUrl(url); // Show immediately
+
+      const upload = async () => {
+        try {
+          const uploadQrCode = new QRCodeStyling({
+            width: 300,
+            height: 300,
+            type: "svg",
+            data: url,
+            image: "/wedding-rings.svg",
+            dotsOptions: {
+              type: "extra-rounded",
+              gradient: {
+                type: "linear",
+                rotation: 45,
+                colorStops: [{ offset: 0, color: "#ff6b6b" }, { offset: 1, color: "#b93b48" }]
+              }
+            },
+            backgroundOptions: { color: "#ffffff" },
+            imageOptions: {
+              crossOrigin: "anonymous",
+              margin: 5,
+              imageSize: 0.4,
+              hideBackgroundDots: true
+            },
+            cornersSquareOptions: { type: "extra-rounded", color: "#b93b48" },
+            cornersDotOptions: { type: "dot", color: "#b93b48" },
+            qrOptions: { mode: "Byte", errorCorrectionLevel: "L" }
+          });
+
+          // Wait for render
+          await new Promise(resolve => setTimeout(resolve, 500));
+
+          const blob = await uploadQrCode.getRawData("png");
+          if (blob) {
+            const postUrl = await generateUploadUrl();
+            const result = await fetch(postUrl, {
+              method: "POST",
+              headers: { "Content-Type": "image/png" },
+              body: blob as Blob,
+            });
+            const { storageId } = await result.json();
+            await saveQrCode({ guestId: guest._id, storageId });
+          }
+        } catch (err) {
+          console.error("Auto-healing QR code failed:", err);
+        }
+      };
+
+      upload();
+    }
+  }, [attendance, guest._id, generateUploadUrl, saveQrCode]);
+
+
+
   //functions
 
   const handleSubmit = async (e: FormEvent) => {

@@ -195,7 +195,10 @@ export const getByGuestId = query({
       qrCodeUrl = await ctx.storage.getUrl(attendance.qrCodeStorageId);
     }
 
-    return { ...attendance, qrCodeUrl };
+    const token = await generateSignedToken(attendance.guestId);
+    const verifyUrl = `https://wedding-invitation-nine-sage.vercel.app/verify?token=${token}`;
+
+    return { ...attendance, qrCodeUrl, verifyUrl };
   },
 });
 
