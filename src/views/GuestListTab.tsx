@@ -58,6 +58,9 @@ export function GuestListTab({ canInvite }: { canInvite: boolean }) {
         setInteractingGuestId(null);
     };
 
+    const invitedCount = guests.filter(g => g.invited).length;
+    const notInvitedCount = guests.length - invitedCount;
+
     return (
         <div>
             <div style={{ display: "flex", gap: "10px" }}>
@@ -65,7 +68,7 @@ export function GuestListTab({ canInvite }: { canInvite: boolean }) {
                     onClick={() => setFilter("all")}
                     style={{
                         flex: 1,
-                        padding: "10px",
+                        padding: "6px 10px",
                         borderRadius: "8px",
                         border: "none",
                         backgroundColor: filter === "all" ? "var(--color-gold)" : "var(--color-surface)",
@@ -74,13 +77,13 @@ export function GuestListTab({ canInvite }: { canInvite: boolean }) {
                         fontWeight: "bold"
                     }}
                 >
-                    All
+                    All ({guests.length})
                 </button>
                 <button
                     onClick={() => setFilter("invited")}
                     style={{
                         flex: 1,
-                        padding: "10px",
+                        padding: "6px 10px",
                         borderRadius: "8px",
                         border: "none",
                         backgroundColor: filter === "invited" ? "var(--color-gold)" : "var(--color-surface)",
@@ -89,13 +92,13 @@ export function GuestListTab({ canInvite }: { canInvite: boolean }) {
                         fontWeight: "bold"
                     }}
                 >
-                    Invited
+                    Invited ({invitedCount})
                 </button>
                 <button
                     onClick={() => setFilter("not_invited")}
                     style={{
                         flex: 1,
-                        padding: "10px",
+                        padding: "6px 10px",
                         borderRadius: "8px",
                         border: "none",
                         backgroundColor: filter === "not_invited" ? "var(--color-gold)" : "var(--color-surface)",
@@ -104,7 +107,7 @@ export function GuestListTab({ canInvite }: { canInvite: boolean }) {
                         fontWeight: "bold"
                     }}
                 >
-                    Not Invited
+                    Not Invited ({notInvitedCount})
                 </button>
             </div>
 

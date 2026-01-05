@@ -8,6 +8,8 @@ import { VwillAttend } from "./attendance";
 export type TstatsResponse = {
   guestCount: number;
   guestPlusCount: number;
+  invitedGuestCount: number;
+  invitedGuestPlusCount: number;
   attendanceCounts: Record<Infer<typeof VwillAttend>, number> & {
     total: number;
   };
@@ -27,10 +29,17 @@ export const guestStats = query({
     const guestMap = new Map<string, number>();
     let guestPlusCount = 0;
     const guests = await ctx.db.query("guest").collect();
+    let invitedGuestCount = 0;
+    let invitedGuestPlusCount = 0;
+
     guests.forEach((g) => {
       const plus = g.plus || 0;
       guestMap.set(g._id, plus);
       guestPlusCount += plus;
+      if (g.invited) {
+        invitedGuestCount++;
+        invitedGuestPlusCount += plus;
+      }
     });
 
     const guestCount = guests.length;
@@ -66,6 +75,8 @@ export const guestStats = query({
     return {
       guestCount,
       guestPlusCount,
+      invitedGuestCount,
+      invitedGuestPlusCount,
       attendanceCounts: { ...willAttendCounts, total: attendanceCount },
       attendancePlusCounts: { ...attendancePlusCounts, total: totalAttendancePluses },
     };

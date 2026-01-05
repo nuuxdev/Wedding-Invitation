@@ -23,6 +23,20 @@ export function HomeTab() {
                     }
                 />
                 <StatCard
+                    label="Invited Guests"
+                    value={
+                        <span style={{ color: "var(--color-white)" }}>
+                            {guestStats?.invitedGuestCount ?? 0}
+                            {(guestStats?.invitedGuestPlusCount ?? 0) > 0 && (
+                                <sup style={{ fontSize: "0.5em", marginLeft: "4px", color: "var(--color-gold)" }}>
+                                    +{guestStats?.invitedGuestPlusCount}
+                                </sup>
+                            )}
+                        </span>
+                    }
+                    color="var(--color-crimson)"
+                />
+                <StatCard
                     label="Total Responses"
                     value={
                         <span>
