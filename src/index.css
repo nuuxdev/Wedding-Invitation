@@ -199,7 +199,7 @@
     width: 100%;
     max-width: 1000px;
     margin: 0 auto;
-    padding: var(--space-xl) var(--space-md);
+    padding: var(--space-xl) var(--space-sm);
     display: flex;
     flex-direction: column;
     gap: var(--space-2xl);
