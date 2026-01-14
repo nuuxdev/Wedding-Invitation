@@ -235,12 +235,12 @@ export default function Form({ guest, weddingInfo }: { guest: Doc<"guest">, wedd
 
   if (attendance) {
     return (
-      <div className="text-center" style={{ padding: '2rem', background: 'var(--color-cream)', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)' }}>
+      <div className="text-center" style={{ background: 'var(--color-cream)', borderRadius: 'var(--radius-lg)', boxShadow: 'var(--shadow-md)' }}>
         <h3>{t('attendanceConfirmed')}</h3>
         <p>{t('saveQrCode')}</p>
         <div style={{ display: 'flex', justifyContent: 'center', margin: '20px 0' }}>
           {attendance.qrCodeUrl ? (
-            <img src={attendance.qrCodeUrl} alt="QR Code" width={300} height={300} />
+            <img src={attendance.qrCodeUrl} alt="QR Code" style={{ width: "100%", maxWidth: "500px", aspectRatio: 1 }} />
           ) : (
             <div ref={qrRef}></div>
           )}
