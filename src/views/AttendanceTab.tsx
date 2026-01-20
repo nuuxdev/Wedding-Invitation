@@ -7,15 +7,24 @@ import { useState } from "react";
 export function AttendanceTab() {
     const attendanceList = useQuery(api.attendance.findAll);
     const [searchQuery, setSearchQuery] = useState("");
+    const [filter, setFilter] = useState<"all" | "checked_in" | "not_checked_in">("all");
 
     if (attendanceList === undefined) return <div className="loading">Loading list...</div>;
 
-    const filteredList = (attendanceList || []).filter((attendance) => {
+    const list = attendanceList ?? [];
+    const checkedInCount = list.filter(a => a.checkedIn).length;
+    const notCheckedInCount = list.length - checkedInCount;
+
+    const filteredList = list.filter((attendance) => {
         const query = searchQuery.toLowerCase();
-        return (
-            attendance.fullName.toLowerCase().includes(query) ||
-            attendance.guestId.toLowerCase().includes(query)
-        );
+        const matchesSearch = attendance.fullName.toLowerCase().includes(query) ||
+            attendance.guestId.toLowerCase().includes(query);
+
+        const matchesFilter = filter === "all" ||
+            (filter === "checked_in" && attendance.checkedIn) ||
+            (filter === "not_checked_in" && !attendance.checkedIn);
+
+        return matchesSearch && matchesFilter;
     });
 
     const willAttendColors: Record<Infer<typeof VwillAttend>, string> = {
@@ -26,6 +35,57 @@ export function AttendanceTab() {
 
     return (
         <div>
+            <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
+                <button
+                    onClick={() => setFilter("all")}
+                    style={{
+                        flex: 1,
+                        padding: "8px 10px",
+                        borderRadius: "8px",
+                        border: "none",
+                        backgroundColor: filter === "all" ? "var(--color-gold)" : "var(--color-surface)",
+                        color: filter === "all" ? "white" : "var(--color-charcoal)",
+                        cursor: "pointer",
+                        fontWeight: "bold",
+                        fontSize: "0.9rem"
+                    }}
+                >
+                    All ({list.length})
+                </button>
+                <button
+                    onClick={() => setFilter("checked_in")}
+                    style={{
+                        flex: 1,
+                        padding: "8px 10px",
+                        borderRadius: "8px",
+                        border: "none",
+                        backgroundColor: filter === "checked_in" ? "var(--color-gold)" : "var(--color-surface)",
+                        color: filter === "checked_in" ? "white" : "var(--color-charcoal)",
+                        cursor: "pointer",
+                        fontWeight: "bold",
+                        fontSize: "0.9rem"
+                    }}
+                >
+                    Checked In ({checkedInCount})
+                </button>
+                <button
+                    onClick={() => setFilter("not_checked_in")}
+                    style={{
+                        flex: 1,
+                        padding: "8px 10px",
+                        borderRadius: "8px",
+                        border: "none",
+                        backgroundColor: filter === "not_checked_in" ? "var(--color-gold)" : "var(--color-surface)",
+                        color: filter === "not_checked_in" ? "white" : "var(--color-charcoal)",
+                        cursor: "pointer",
+                        fontWeight: "bold",
+                        fontSize: "0.9rem"
+                    }}
+                >
+                    Remaining ({notCheckedInCount})
+                </button>
+            </div>
+
             <div style={{ marginBottom: "20px" }}>
                 <input
                     type="text"
