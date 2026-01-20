@@ -45,6 +45,7 @@ export const findAll = query({
         return {
           ...attendance,
           plus: guest?.plus || 0,
+          phoneNumber: guest?.phoneNumber || "",
         };
       })
     );

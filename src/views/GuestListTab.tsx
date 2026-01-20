@@ -8,13 +8,24 @@ export function GuestListTab({ canInvite }: { canInvite: boolean }) {
     const markInvited = useMutation(api.guest.markInvited);
     const [interactingGuestId, setInteractingGuestId] = useState<string | null>(null);
     const [filter, setFilter] = useState<"all" | "invited" | "not_invited">("all");
+    const [searchQuery, setSearchQuery] = useState("");
 
     if (guests === undefined) return <div className="loading">Loading guests...</div>;
 
     const filteredGuests = guests.filter((guest) => {
-        if (filter === "invited") return guest.invited;
-        if (filter === "not_invited") return !guest.invited;
-        return true;
+        const query = searchQuery.toLowerCase();
+        const fullName = `${guest.firstName} ${guest.lastName}`.toLowerCase();
+        const fullNameAm = `${guest.firstNameAm || ""} ${guest.lastNameAm || ""}`.toLowerCase();
+
+        const matchesSearch = fullName.includes(query) ||
+            fullNameAm.includes(query) ||
+            guest.phoneNumber.toLowerCase().includes(query);
+
+        const matchesFilter = filter === "all" ||
+            (filter === "invited" && guest.invited) ||
+            (filter === "not_invited" && !guest.invited);
+
+        return matchesSearch && matchesFilter;
     });
 
     const generateMessages = (guest: Doc<"guest">) => {
@@ -109,6 +120,22 @@ export function GuestListTab({ canInvite }: { canInvite: boolean }) {
                 >
                     Not Invited ({notInvitedCount})
                 </button>
+            </div>
+
+            <div style={{ marginBottom: "20px", marginTop: "15px" }}>
+                <input
+                    type="text"
+                    placeholder="Search by name or phone..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    style={{
+                        width: "100%",
+                        padding: "12px",
+                        borderRadius: "8px",
+                        border: "1px solid var(--color-stone)",
+                        fontSize: "1rem",
+                    }}
+                />
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>

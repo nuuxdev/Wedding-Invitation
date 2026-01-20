@@ -18,7 +18,8 @@ export function AttendanceTab() {
     const filteredList = list.filter((attendance) => {
         const query = searchQuery.toLowerCase();
         const matchesSearch = attendance.fullName.toLowerCase().includes(query) ||
-            attendance.guestId.toLowerCase().includes(query);
+            attendance.guestId.toLowerCase().includes(query) ||
+            (attendance as any).phoneNumber?.toLowerCase().includes(query);
 
         const matchesFilter = filter === "all" ||
             (filter === "checked_in" && attendance.checkedIn) ||
