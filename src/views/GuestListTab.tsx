@@ -73,7 +73,7 @@ export function GuestListTab({ canInvite }: { canInvite: boolean }) {
     const notInvitedCount = guests.length - invitedCount;
 
     return (
-        <div>
+        <div style={{ gap: "4px" }}>
             <div style={{ display: "flex", gap: "10px" }}>
                 <button
                     onClick={() => setFilter("all")}

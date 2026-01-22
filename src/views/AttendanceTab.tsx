@@ -35,7 +35,7 @@ export function AttendanceTab() {
     };
 
     return (
-        <div>
+        <div style={{ gap: "4px" }}>
             <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
                 <button
                     onClick={() => setFilter("all")}
