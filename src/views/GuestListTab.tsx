@@ -2,15 +2,17 @@ import { useQuery, useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import { useState } from "react";
 import { Doc } from "../../convex/_generated/dataModel";
+import { generateGuestListPDF, GuestForPDF } from "../utils/pdfGenerator";
 
 export function GuestListTab({ canInvite }: { canInvite: boolean }) {
     const guests = useQuery(api.guest.findAll);
+    const attendanceList = useQuery(api.attendance.findAll);
     const markInvited = useMutation(api.guest.markInvited);
     const [interactingGuestId, setInteractingGuestId] = useState<string | null>(null);
     const [filter, setFilter] = useState<"all" | "invited" | "not_invited">("all");
     const [searchQuery, setSearchQuery] = useState("");
 
-    if (guests === undefined) return <div className="loading">Loading guests...</div>;
+    if (guests === undefined || attendanceList === undefined) return <div className="loading">Loading guests...</div>;
 
     const filteredGuests = guests.filter((guest) => {
         const query = searchQuery.toLowerCase();
@@ -137,6 +139,53 @@ export function GuestListTab({ canInvite }: { canInvite: boolean }) {
                     }}
                 />
             </div>
+
+            {canInvite && (
+                <button
+                    onClick={() => {
+                        const guestListForPdf: GuestForPDF[] = filteredGuests.map(guest => {
+                            // Find attendance record for this guest
+                            // The attendanceList from api.attendance.findAll has structure:
+                            // { ...attendance, plus: number, phoneNumber: string }
+                            // We need to match by guestId.
+                            // However, api.attendance.findAll actually returns a list of attendance records, 
+                            // we need to find the one matching the guest._id
+                            // Wait, api.attendance.findAll returns Promise<...>. 
+                            // The useQuery result is the array.
+
+                            const att = attendanceList?.find(a => a.guestId === guest._id);
+
+                            // Determine 'will attend' status
+                            let willAttend = "not-filled";
+                            if (att) {
+                                willAttend = att.willAttend;
+                            }
+
+                            // Determine checked in status
+                            const checkedIn = att ? (att.checkedIn || false) : false;
+
+                            return {
+                                firstName: guest.firstName,
+                                lastName: guest.lastName,
+                                phoneNumber: guest.phoneNumber,
+                                plus: guest.plus || 0,
+                                willAttend,
+                                checkedIn
+                            };
+                        });
+                        generateGuestListPDF(guestListForPdf);
+                    }}
+                    className="scanner-fab" // Reusing the FAB class for consistent styling
+                    title="Download Guest List PDF"
+                >
+                    {/* Download Icon */}
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                </button>
+            )}
 
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
                 {filteredGuests.length > 0 ? (

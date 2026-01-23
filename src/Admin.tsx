@@ -68,8 +68,8 @@ function AdminApp() {
         {activeTab === "wishes" && <WishesTab />}
       </main>
 
-      {/* Floating Action Button for Scanner - Admin only */}
-      {isAdmin && (
+      {/* Floating Action Button for Scanner - Admin only. Not shown on guests tab where download button lives */}
+      {isAdmin && activeTab !== "guests" && (
         <button
           onClick={() => setShowScanner(true)}
           className="scanner-fab"
