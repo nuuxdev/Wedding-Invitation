@@ -182,6 +182,10 @@ export const translations: Record<string, Record<Language, string>> = {
     warmClothes: {
         en: "Please kindly bring warm clothes since the event is going to take place outdoors.",
         am: "ዝግጅቱ የሚካሄደው ከቤት ውጭ ነፋሻማ ቦታ ላይ ስለሆነ ሙቀት ሰጪ ልብስ መያዝ ይመከራል!"
+    },
+    celebrationBegun: {
+        en: "The Celebration Has Begun!",
+        am: "ደስታው ተጀምሯል!"
     }
 };
 

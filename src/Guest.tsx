@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { api } from "../convex/_generated/api";
 import { useRef, useState } from "react";
 import Countdown from "react-countdown";
+import confetti from "canvas-confetti";
 import Form from "./components/Form";
 import WishList from "./components/WishList";
 import Gallery from "./components/Gallery";
@@ -39,7 +40,23 @@ export default function Guest() {
     completed: boolean;
   }) => {
     if (completed) {
-      return <div className="completed-message">The Celebration Has Begun!</div>;
+      // Trigger confetti when timer completes
+      confetti({
+        particleCount: 150,
+        spread: 70,
+        origin: { y: 0.6 },
+        colors: ['#ff6b6b', '#D4AF37'] // crimson and gold
+      });
+      return (
+        <div style={{
+          color: '#eab308', // yellow-500
+          fontWeight: 'bold',
+          fontSize: '1.5rem', // text-xl is usually 1.25rem, making it a bit bigger
+          textAlign: 'center'
+        }}>
+          {t('celebrationBegun')}
+        </div>
+      );
     } else {
       return (
         <div className="countdown-grid">
@@ -126,6 +143,16 @@ export default function Guest() {
                   <Countdown
                     date={new Date(weddingInfo?.weddingDate || Date.now())}
                     renderer={renderer}
+                    onMount={({ completed }) => {
+                      if (completed) {
+                        confetti({
+                          particleCount: 150,
+                          spread: 70,
+                          origin: { y: 0.6 },
+                          colors: ['#ff6b6b', '#D4AF37'] // crimson and gold
+                        });
+                      }
+                    }}
                   />
                 </div>
                 <div style={{ marginTop: '2rem' }}>
